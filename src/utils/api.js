@@ -28,6 +28,14 @@ class Api {
     }).then((res) => onResponse(res))
   }
 
+  setUserInfo(dataUser) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify(dataUser),
+    }).then((res) => onResponse(res))
+  }
+
   searchProducts(query) {
     return fetch(`${this._baseUrl}/products/search?query=${query}`, {
       headers: this._headers,
@@ -38,20 +46,6 @@ class Api {
     return fetch(`${this._baseUrl}/products/likes/${productId}`, {
       headers: this._headers,
       method: like ? 'PUT' : 'DELETE',
-    }).then((res) => onResponse(res))
-  }
-
-  deleteLike(productId) {
-    return fetch(`${this._baseUrl}/products/likes/${productId}`, {
-      headers: this._headers,
-      method: 'DELETE',
-    }).then((res) => onResponse(res))
-  }
-
-  addLike(productId) {
-    return fetch(`${this._baseUrl}/products/likes/${productId}`, {
-      headers: this._headers,
-      method: 'PUT',
     }).then((res) => onResponse(res))
   }
 }

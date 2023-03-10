@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { getIssues, useDebounce } from './utils/utils'
+import { useDebounce } from './utils/utils'
 import { CardList } from './CardList/CardList'
 import { Footer } from './Footer/Footer'
 import { Header } from './Header/Header'
 import { api } from './utils/api'
 import data from './data/data.json'
+import SearchInfo from './SearchInfo/SearchInfo'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -57,12 +58,11 @@ function App() {
         parentCounter={parentCounter}
       />
       <main className="content container">
-        {searchQuery && (
-          <p>
-            По запросу {searchQuery} найдено {cards.length}
-            {getIssues(cards.length)}
-          </p>
-        )}
+        <SearchInfo
+          searchQuery={searchQuery}
+          cardsCount={cards.length}
+          cards={cards}
+        />
         <CardList
           currentUser={currentUser}
           handleProductLike={handleProductLike}
