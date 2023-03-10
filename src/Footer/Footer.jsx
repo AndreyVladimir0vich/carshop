@@ -1,36 +1,117 @@
-import { Logo } from '../Logo/Logo';
-import { Sociallinks } from '../Sociallinks/Sociallinks';
-import './index.css';
+import './index.css'
+import telegram from './telegram.svg'
+import instagram from './instagram.svg'
+import viber from './viber.svg'
+import whatsapp from './whatsapp.svg'
+import vk from './vk.svg'
+import { Logo } from '../Logo/Logo'
 
 export const Footer = () => {
-    return (
-        <div className='footer'>
-            <div className='container'>
-                <div className='footer__wrapper'>
-                    <div>
-                        <Logo/>
-                        <p>© «Интернет-магазин CarShop.ru»</p>
-                    </div>
-                    <div className='footer__container'>
-                        <a href="#">Каталог</a>
-                        <a href="#">Акции</a>
-                        <a href="#">Новости</a>
-                        <a href="#">Отзывы</a>
-                    </div>
-                    <div className='footer__container'>
-                        <a href="#">Оплата и доставка</a>
-                        <a href="#">Часто спрашивают</a>
-                        <a href="#">Обратная связь</a>
-                        <a href="#">Контакты</a>
-                    </div>
-                    <div className='footer__container'>
-                        <h3 className='noMargin'>Мы на связи</h3>
-                        <h4 className='noMargin'>8(999) 00-00-00</h4>
-                        <p className='noMargin'>carshop@pochta.ru</p>
-                        <Sociallinks/>
-                    </div>
-                </div>
+  return (
+    <footer className="footer">
+      <div className="container">
+        <div className="footer__wrapper">
+          <div className="footer__col">
+            <Logo
+              className="logo footer__logo"
+              title="Логотип"
+              aria-hidden={true}
+            />
+            <p className="footer__copyright">
+              © «Интернет-магазин CarShop.gam»
+            </p>
+          </div>
+          <div className="footer__col">
+            <nav className="menu-bottom">
+              <a href="/catalogue" className="menu-bottom__item">
+                Каталог
+              </a>
+              <a href="/catalogue" className="menu-bottom__item">
+                Акции
+              </a>
+              <a href="/catalogue" className="menu-bottom__item">
+                Новости
+              </a>
+              <a href="/catalogue" className="menu-bottom__item">
+                Отзывы
+              </a>
+            </nav>
+          </div>
+          <div className="footer__col">
+            <nav className="menu-bottom">
+              <a href="/catalogue" className="menu-bottom__item">
+                Оплата и доставка
+              </a>
+              <a href="/catalogue" className="menu-bottom__item">
+                Часто спрашивают
+              </a>
+              <a href="/catalogue" className="menu-bottom__item">
+                Обратная связь
+              </a>
+              <a href="/catalogue" className="menu-bottom__item">
+                Контакты
+              </a>
+            </nav>
+          </div>
+          <div className="footer__col">
+            <div className="contacts">
+              <p className="contacts__title">Мы на связи</p>
+              <a
+                className="contacts__tel contacts__link"
+                href="tel:89177172179"
+              >
+                8 (999) 00-00-00
+              </a>
+              <a
+                className="contacts__mail contacts__link"
+                href="mailto:hordog.ru@gmail.com"
+              >
+                carshop.ru@gmail.com
+              </a>
+              <ul className="socials contacts__socials">
+                <li className="socials__item">
+                  <a className="socials__link" href="/#">
+                    <img
+                      src={telegram}
+                      alt="telegram"
+                      className="socials__icon"
+                    />
+                  </a>
+                </li>
+
+                <li className="socials__item">
+                  <a className="socials__link" href="/#">
+                    <img
+                      src={whatsapp}
+                      alt="whatsapp"
+                      className="socials__icon"
+                    />
+                  </a>
+                </li>
+                <li className="socials__item">
+                  <a className="socials__link" href="/#">
+                    <img src={viber} alt="viber" className="socials__icon" />
+                  </a>
+                </li>
+                <li className="socials__item">
+                  <a className="socials__link" href="/#">
+                    <img
+                      src={instagram}
+                      alt="instagram"
+                      className="socials__icon"
+                    />
+                  </a>
+                </li>
+                <li className="socials__item">
+                  <a className="socials__link" href="/#">
+                    <img src={vk} alt="vk" className="socials__icon" />
+                  </a>
+                </li>
+              </ul>
             </div>
+          </div>
         </div>
-    )
+      </div>
+    </footer>
+  )
 }
