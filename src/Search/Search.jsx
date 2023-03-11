@@ -1,6 +1,6 @@
-import './index.css'
 import { ReactComponent as SearchIcon } from './Search.svg'
 import { ReactComponent as CloseIcon } from './ic-close-input.svg'
+import './index.css'
 
 export const Search = ({ setSearchQuery }) => {
   return (

@@ -17,7 +17,7 @@ function App() {
     api.searchProducts(search).then((data) => setCards([...data]))
   }
 
-  const debounceValueInApp = useDebounce(searchQuery, 500)
+  const debounceValueInApp = useDebounce(searchQuery, 400)
 
   useEffect(() => {
     handleSearch(debounceValueInApp)
@@ -31,6 +31,12 @@ function App() {
       }
     )
   }, [])
+
+  const handleUpdateUser = (userUpdate) => {
+    api.setUserInfo(userUpdate).then((newUser) => {
+      setCurrentUser(newUser)
+    })
+  }
 
   function handleProductLike(product) {
     const isLiked = product.likes.some((el) => el === currentUser._id)
@@ -56,6 +62,7 @@ function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         parentCounter={parentCounter}
+        handleUpdateUser={handleUpdateUser}
       />
       <main className="content container">
         <SearchInfo
