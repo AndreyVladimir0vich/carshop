@@ -1,5 +1,6 @@
 import { ReactComponent as Like } from './like.svg'
 import './index.css'
+import cn from 'classnames'
 
 export const Card = ({
   product,
@@ -8,15 +9,20 @@ export const Card = ({
   discount,
   price,
   setParentCounter,
-  onProductLike,
+  handleProductLike,
   currentUser,
   isFavorite,
+  likes,
+  _id,
 }) => {
-  // const isLiked = product.likes.some((el) => el === currentUser._id);
-  // const handleLikeClick = () => {
-  //   onProductLike(product);
-  // };
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
+
+  const isLiked = product.likes.some((_id) => _id === currentUser._id)
+
+  const handleLikeClick = () => {
+    handleProductLike(product)
+  }
+
   return (
     <div className="card">
       <div className="card__sticky card__sticky_type_top-left">
@@ -26,11 +32,14 @@ export const Card = ({
       </div>
 
       <div className="card__sticky card__sticky_type_top-right">
-        {isFavorite === true && (
-          <button className="card__favorite">
-            <Like className="card__liked" alt="добавить в избранное" />
-          </button>
-        )}
+        <button
+          className={cn('card__favorite', {
+            'card__favorite_is-active': isLiked,
+          })}
+          onClick={handleLikeClick}
+        >
+          <Like />
+        </button>
       </div>
 
       <a href="/" className="card__link">

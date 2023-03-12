@@ -42,10 +42,10 @@ class Api {
     }).then((res) => onResponse(res))
   }
 
-  changeLikeProductStatus(productId, like) {
+  changeLikeProductStatus(productId, isLike) {
     return fetch(`${this._baseUrl}/products/likes/${productId}`, {
+      method: isLike ? 'PUT' : 'DELETE',
       headers: this._headers,
-      method: like ? 'PUT' : 'DELETE',
     }).then((res) => onResponse(res))
   }
 }

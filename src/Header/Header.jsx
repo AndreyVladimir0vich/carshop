@@ -35,9 +35,9 @@ export const Header = ({
             <IconBasket count={counter} />
           </div>
           <div>
-            {user.email && <span>{user.email}</span>}{' '}
-            {user.email && <span>{user.name}</span>}{' '}
-            {user.about ? <span>{user.about}</span> : null}{' '}
+            {user?.email && <span>{user?.email}</span>}{' '}
+            {user?.email && <span>{user?.name}</span>}{' '}
+            {user?.about ? <span>{user?.about}</span> : null}{' '}
             {/* <button onClick={handleClickButtonEdit}>Изменить</button> */}
           </div>
         </div>

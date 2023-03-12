@@ -16,7 +16,7 @@ export const CardList = ({
             {...item}
             currentUser={currentUser}
             product={item}
-            onProductLike={handleProductLike}
+            handleProductLike={handleProductLike}
             setParentCounter={setParentCounter}
           />
         )

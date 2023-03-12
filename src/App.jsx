@@ -4,12 +4,12 @@ import { CardList } from './CardList/CardList'
 import { Footer } from './Footer/Footer'
 import { Header } from './Header/Header'
 import { api } from './utils/api'
-import data from './data/data.json'
+// import data from './data/data.json'
 import SearchInfo from './SearchInfo/SearchInfo'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [cards, setCards] = useState(data)
+  const [cards, setCards] = useState([])
   const [currentUser, setCurrentUser] = useState({})
   const [parentCounter, setParentCounter] = useState(0)
 
@@ -39,20 +39,13 @@ function App() {
   }
 
   function handleProductLike(product) {
-    const isLiked = product.likes.some((el) => el === currentUser._id)
-    isLiked
-      ? api.deleteLike(product._id).then((newCard) => {
-          const newCards = cards.map((e) =>
-            e._id === newCard._id ? newCard : e
-          )
-          setCards([...newCards])
-        })
-      : api.addLike(product._id).then((newCard) => {
-          const newCards = cards.map((e) =>
-            e._id === newCard._id ? newCard : e
-          )
-          setCards([...newCards])
-        })
+    const isLiked = product.likes.some((id) => id === currentUser._id)
+    api.changeLikeProductStatus(product._id, !isLiked).then((newCard) => {
+      const newCards = cards.map((c) => {
+        return c._id === newCard._id ? newCard : c
+      })
+      setCards(newCards)
+    })
   }
 
   return (
