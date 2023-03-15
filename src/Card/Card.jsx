@@ -11,9 +11,6 @@ export const Card = ({
   setParentCounter,
   handleProductLike,
   currentUser,
-  isFavorite,
-  likes,
-  _id,
 }) => {
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
 
