@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDebounce } from './utils/utils'
-import { CardList } from './CardList/CardList'
 import { Footer } from './Footer/Footer'
 import { Header } from './Header/Header'
 import { api } from './utils/api'
-// import data from './data/data.json'
 import SearchInfo from './SearchInfo/SearchInfo'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import { CatalogPage } from './pages/CatalogPage'
+import { ProductPage } from './pages/ProductPage'
+import Page404 from './pages/Page404'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -13,8 +15,13 @@ function App() {
   const [currentUser, setCurrentUser] = useState({})
   const [parentCounter, setParentCounter] = useState(0)
 
+  const filtredCards = (products, id) =>
+    products.filter((prod) => prod.author._id === id)
+
   const handleSearch = (search) => {
-    api.searchProducts(search).then((data) => setCards([...data]))
+    api
+      .searchProducts(search)
+      .then((data) => setCards(filtredCards(data, currentUser._id))) //(data) => setCards([...data])||filtredCards(data, currentUser._id)
   }
 
   const debounceValueInApp = useDebounce(searchQuery, 400)
@@ -27,7 +34,7 @@ function App() {
     Promise.all([api.getUserInfo(), api.getProductList()]).then(
       ([userData, productData]) => {
         setCurrentUser(userData)
-        setCards(productData.products)
+        setCards(filtredCards(productData.products, userData._id)) //productData.products||filtredCards(productData.products, userData._id)
       }
     )
   }, [])
@@ -48,6 +55,13 @@ function App() {
     })
   }
 
+  const navigate = useNavigate()
+
+  // const newProduct = {}
+  // const cliker = async () => {
+  //   await api.addNewProduct(newProduct)
+  // }
+
   return (
     <>
       <Header
@@ -58,17 +72,32 @@ function App() {
         handleUpdateUser={handleUpdateUser}
       />
       <main className="content container">
+        {/* <button onClick={() => cliker()}>add</button> */}
         <SearchInfo
           searchQuery={searchQuery}
           cardsCount={cards.length}
           cards={cards}
         />
-        <CardList
-          currentUser={currentUser}
-          handleProductLike={handleProductLike}
-          setParentCounter={setParentCounter}
-          cards={cards}
-        />
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <CatalogPage
+                searchQuery={searchQuery}
+                cards={cards}
+                currentUser={currentUser}
+                handleProductLike={handleProductLike}
+                setParentCounter={setParentCounter}
+              />
+            }
+          ></Route>
+          <Route
+            path="/product/:productId"
+            element={<ProductPage currentUser={currentUser} />}
+          ></Route>
+          <Route path="*" element={<Page404 navigate={navigate} />}></Route>
+        </Routes>
       </main>
       <Footer />
     </>

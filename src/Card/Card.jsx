@@ -1,6 +1,7 @@
 import { ReactComponent as Like } from './like.svg'
 import './index.css'
 import cn from 'classnames'
+import { Link } from 'react-router-dom'
 
 export const Card = ({
   product,
@@ -39,21 +40,21 @@ export const Card = ({
         </button>
       </div>
 
-      <a href="/" className="card__link">
+      <Link to={`/product/${product._id}`} className="card__link">
         <img src={pictures} alt="Картинка" className="card__image" />
         <div className="card__desc">
           <span className={discount !== 0 ? 'card__old-price' : 'card__price'}>
-            {price}&nbsp;$
+            {price}&nbsp;у.е.
           </span>
           {discount !== 0 && (
             <span className="card__price card__price_type_discount">
-              {calcDiscountPrice}&nbsp;$
+              {calcDiscountPrice}&nbsp;у.е.
             </span>
           )}
           {/* <span className='card_weight'>1pc</span> */}
           <p className="card__name">{name}</p>
         </div>
-      </a>
+      </Link>
 
       <a href="/" className="card__card btn btn_type_primary">
         В корзину

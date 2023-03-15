@@ -22,6 +22,20 @@ class Api {
     }).then((res) => onResponse(res))
   }
 
+  getProductById(id) {
+    return fetch(`${this._baseUrl}/products/${id}`, {
+      headers: this._headers,
+    }).then((res) => onResponse(res))
+  }
+
+  addNewProduct(newProduct) {
+    return fetch(`${this._baseUrl}/products`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify(newProduct),
+    }).then((res) => onResponse(res))
+  }
+
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
