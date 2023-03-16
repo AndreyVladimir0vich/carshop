@@ -1,20 +1,22 @@
-import React from 'react'
+import cn from 'classnames'
 import s from './index.module.css'
+import React, { useContext } from 'react'
 import truck from './image/truck.svg'
 import quality from './image/quality.svg'
 import { ReactComponent as Save } from './image/save.svg'
-import cn from 'classnames'
 import { useEffect, useState } from 'react'
 import { api } from '../utils/api'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../context/userContext'
 
-export const Product = ({ currentUser, id }) => {
+export const Product = ({ id }) => {
+  const { currentUser, setParentCounter } = useContext(UserContext)
   const [product, setProduct] = useState({})
+  const isLiked = product?.likes?.some((el) => el === currentUser._id)
+
   useEffect(() => {
     api.getProductById(id).then((data) => setProduct(data))
   }, [id])
-
-  const isLiked = product?.likes?.some((el) => el === currentUser._id)
 
   return (
     <>
@@ -38,9 +40,12 @@ export const Product = ({ currentUser, id }) => {
               <span className={s.num}>0</span>
               <button className={s.plus}>+</button>
             </div>
-            <a href="/#" className={`btn btn_type_primary ${s.cart}`}>
+            <span
+              onClick={() => setParentCounter((state) => state + 1)}
+              className="card__card btn btn_type_primary"
+            >
               В корзину
-            </a>
+            </span>
           </div>
           <button className={cn(s.favorite, { [s.favoriteActive]: isLiked })}>
             <Save />

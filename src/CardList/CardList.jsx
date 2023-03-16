@@ -1,12 +1,10 @@
+import { useContext } from 'react'
 import { Card } from '../Card/Card'
+import { UserContext } from '../context/userContext'
 import './index.css'
 
-export const CardList = ({
-  cards,
-  handleProductLike,
-  currentUser,
-  setParentCounter,
-}) => {
+export const CardList = () => {
+  const { cards, handleProductLike, setParentCounter } = useContext(UserContext)
   return (
     <div className="cards">
       {cards.map((item) => {
@@ -14,7 +12,6 @@ export const CardList = ({
           <Card
             key={item._id}
             {...item}
-            currentUser={currentUser}
             product={item}
             handleProductLike={handleProductLike}
             setParentCounter={setParentCounter}

@@ -2,6 +2,8 @@ import { ReactComponent as Like } from './like.svg'
 import './index.css'
 import cn from 'classnames'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../context/userContext'
 
 export const Card = ({
   product,
@@ -11,11 +13,10 @@ export const Card = ({
   price,
   setParentCounter,
   handleProductLike,
-  currentUser,
 }) => {
+  const { currentUser } = useContext(UserContext)
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
-
-  const isLiked = product.likes.some((_id) => _id === currentUser._id)
+  const isLiked = product.likes.some((id) => id === currentUser._id)
 
   const handleLikeClick = () => {
     handleProductLike(product)
@@ -56,9 +57,12 @@ export const Card = ({
         </div>
       </Link>
 
-      <a href="/" className="card__card btn btn_type_primary">
+      <span
+        onClick={() => setParentCounter((state) => state + 1)}
+        className="card__card btn btn_type_primary"
+      >
         В корзину
-      </a>
+      </span>
     </div>
   )
 }

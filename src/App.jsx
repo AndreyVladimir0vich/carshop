@@ -8,12 +8,15 @@ import { Route, Routes, useNavigate } from 'react-router-dom'
 import { CatalogPage } from './pages/CatalogPage'
 import { ProductPage } from './pages/ProductPage'
 import Page404 from './pages/Page404'
+import { UserContext } from './context/userContext'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [cards, setCards] = useState([])
   const [currentUser, setCurrentUser] = useState({})
   const [parentCounter, setParentCounter] = useState(0)
+  const debounceValueInApp = useDebounce(searchQuery, 400)
+  const navigate = useNavigate()
 
   const filtredCards = (products, id) =>
     products.filter((prod) => prod.author._id === id)
@@ -23,8 +26,6 @@ function App() {
       .searchProducts(search)
       .then((data) => setCards(filtredCards(data, currentUser._id))) //(data) => setCards([...data])||filtredCards(data, currentUser._id)
   }
-
-  const debounceValueInApp = useDebounce(searchQuery, 400)
 
   useEffect(() => {
     handleSearch(debounceValueInApp)
@@ -39,13 +40,7 @@ function App() {
     )
   }, [])
 
-  const handleUpdateUser = (userUpdate) => {
-    api.setUserInfo(userUpdate).then((newUser) => {
-      setCurrentUser(newUser)
-    })
-  }
-
-  function handleProductLike(product) {
+  const handleProductLike = (product) => {
     const isLiked = product.likes.some((id) => id === currentUser._id)
     api.changeLikeProductStatus(product._id, !isLiked).then((newCard) => {
       const newCards = cards.map((c) => {
@@ -55,51 +50,62 @@ function App() {
     })
   }
 
-  const navigate = useNavigate()
-
+  // const handleUpdateUser = (userUpdate) => {
+  //   api.setUserInfo(userUpdate).then((newUser) => {
+  //     setCurrentUser(newUser)
+  //   })
+  // }
   // const newProduct = {}
-  // const cliker = async () => {
+  // const addCardinDB = async () => {
   //   await api.addNewProduct(newProduct)
   // }
 
+  const setSortCards = (sort) => {
+    if (sort === 'Новые') {
+      const newCards = cards.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      )
+      setCards([...newCards])
+    }
+    if (sort === 'Сначала дешевые') {
+      const newCards = cards.sort((a, b) => a.price - b.price)
+      setCards([...newCards])
+    }
+    if (sort === 'Сначала дорогие') {
+      const newCards = cards.sort((a, b) => b.price - a.price)
+      setCards([...newCards])
+    }
+    if (sort === 'Популярные') {
+      const newCards = cards.sort((a, b) => b.likes.length - a.likes.length)
+      setCards([...newCards])
+    }
+  }
+
+  const contextValue = {
+    cards,
+    currentUser,
+    searchQuery,
+    parentCounter,
+    setSearchQuery,
+    setParentCounter,
+    setSortCards,
+    handleProductLike,
+  }
   return (
     <>
-      <Header
-        user={currentUser}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        parentCounter={parentCounter}
-        handleUpdateUser={handleUpdateUser}
-      />
-      <main className="content container">
-        {/* <button onClick={() => cliker()}>add</button> */}
-        <SearchInfo
-          searchQuery={searchQuery}
-          cardsCount={cards.length}
-          cards={cards}
-        />
-
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <CatalogPage
-                searchQuery={searchQuery}
-                cards={cards}
-                currentUser={currentUser}
-                handleProductLike={handleProductLike}
-                setParentCounter={setParentCounter}
-              />
-            }
-          ></Route>
-          <Route
-            path="/product/:productId"
-            element={<ProductPage currentUser={currentUser} />}
-          ></Route>
-          <Route path="*" element={<Page404 navigate={navigate} />}></Route>
-        </Routes>
-      </main>
-      <Footer />
+      <UserContext.Provider value={contextValue}>
+        <Header />
+        <main className="content container">
+          {/* <button onClick={() => addCardinDB()}>add</button> */}
+          <SearchInfo />
+          <Routes>
+            <Route path="/" element={<CatalogPage />}></Route>
+            <Route path="/product/:productId" element={<ProductPage />}></Route>
+            <Route path="*" element={<Page404 navigate={navigate} />}></Route>
+          </Routes>
+        </main>
+        <Footer />
+      </UserContext.Provider>
     </>
   )
 }

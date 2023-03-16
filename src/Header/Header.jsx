@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../context/userContext'
 import { Logo } from '../Logo/Logo'
 import { Search } from '../Search/Search'
 import IconBasket from './basketMaterial/BasketMaterial'
 import './index.css'
 
-export const Header = ({
-  setSearchQuery,
-  searchQuery,
-  parentCounter = 0,
-  user,
-  handleUpdateUser,
-}) => {
+export const Header = () => {
+  const { currentUser, parentCounter, setSearchQuery } = useContext(UserContext)
   const [counter, setCounter] = useState(parentCounter)
 
   useEffect(() => {
     setCounter((st) => st + 1)
   }, [parentCounter])
-
-  // const handleClickButtonEdit = (event) => {
-  //   event.preventDefault()
-  //   handleUpdateUser({ name: 'Andrey', about: 'RazRab' })
-  // }
 
   return (
     <div className="header" id="head">
@@ -28,16 +19,15 @@ export const Header = ({
         <div className="header__wrapper">
           <div className="header__left">
             <Logo />
-            <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <Search setSearchQuery={setSearchQuery} />
           </div>
           <div>
-            {/* <Basket /> */}
             <IconBasket count={counter} />
           </div>
           <div>
-            {user.email && <span>{user.email}</span>}{' '}
-            {user.email && <span>{user.name}</span>}{' '}
-            {user.about ? <span>{user.about}</span> : null}{' '}
+            {currentUser.email && <span>{currentUser.email}</span>}{' '}
+            {currentUser.email && <span>{currentUser.name}</span>}{' '}
+            {currentUser.about ? <span>{currentUser.about}</span> : null}{' '}
             {/* <button onClick={handleClickButtonEdit}>Изменить</button> */}
           </div>
         </div>

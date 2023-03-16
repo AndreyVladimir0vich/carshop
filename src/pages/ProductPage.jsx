@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom'
 import { Product } from '../Product/Product'
 
-export const ProductPage = ({ currentUser }) => {
+export const ProductPage = () => {
   const id = useParams()
 
-  return <Product currentUser={currentUser} id={id.productId} />
+  return <Product id={id.productId} />
 }
