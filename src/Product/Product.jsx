@@ -13,6 +13,9 @@ export const Product = ({ id }) => {
   const { currentUser, setParentCounter } = useContext(UserContext)
   const [product, setProduct] = useState({})
   const isLiked = product?.likes?.some((el) => el === currentUser._id)
+  const calcDiscountPrice = Math.round(
+    product.price - (product.price * product.discount) / 100
+  )
 
   useEffect(() => {
     api.getProductById(id).then((data) => setProduct(data))
@@ -22,16 +25,33 @@ export const Product = ({ id }) => {
     <>
       <div className={s.product}>
         <div className={s.imgWrapper}>
-          <img className={s.img} src={product.pictures} alt={`Изображение`} />
+          <img
+            className={s.img}
+            src={product.pictures}
+            alt={`Изображение продукта${product.name}`}
+          />
           {product.tags?.map((e) => (
             <span className={`tag tag_type_${e}`}>{e}</span>
           ))}
         </div>
+
         <div className={s.desc}>
-          <span className={s.price}>{product.price}&nbsp;у.е.</span>
+          <span className={s.price}>{product.name}</span>
+          <span
+            className={
+              product.discount !== 0 ? 'card__old-price' : 'card__price'
+            }
+          >
+            {product.price}&nbsp;у.е.
+          </span>
           {!!product.discount && (
             <span className={`${s.price} card__price_type_discount`}>
               {product.discount}&nbsp;%
+            </span>
+          )}
+          {product.discount !== 0 && (
+            <span className="card__price card__price_type_discount">
+              {calcDiscountPrice}&nbsp;у.е.
             </span>
           )}
           <div className={s.btnWrap}>
@@ -69,7 +89,7 @@ export const Product = ({ id }) => {
               </p>
             </div>
           </div>
-          <Link to={'/'} className={`btn btn_type_primary ${s.cart}`}>
+          <Link to={'/'} className="card__card btn btn_type_primary">
             Вернутся в каталог
           </Link>
         </div>

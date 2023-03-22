@@ -1,14 +1,15 @@
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDebounce } from './utils/utils'
-import { Footer } from './Footer/Footer'
-import { Header } from './Header/Header'
-import { api } from './utils/api'
-import SearchInfo from './SearchInfo/SearchInfo'
-import { Route, Routes, useNavigate } from 'react-router-dom'
 import { CatalogPage } from './pages/CatalogPage'
 import { ProductPage } from './pages/ProductPage'
-import Page404 from './pages/Page404'
 import { UserContext } from './context/userContext'
+import { Header } from './Header/Header'
+import { Footer } from './Footer/Footer'
+import { api } from './utils/api'
+import SearchInfo from './SearchInfo/SearchInfo'
+import Page404 from './pages/Page404'
+import FaqPage from './pages/FaqPage'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -55,6 +56,7 @@ function App() {
   //     setCurrentUser(newUser)
   //   })
   // }
+
   // const newProduct = {}
   // const addCardinDB = async () => {
   //   await api.addNewProduct(newProduct)
@@ -102,6 +104,7 @@ function App() {
             <Route path="/" element={<CatalogPage />}></Route>
             <Route path="/product/:productId" element={<ProductPage />}></Route>
             <Route path="*" element={<Page404 navigate={navigate} />}></Route>
+            <Route path="faq" element={<FaqPage />}></Route>
           </Routes>
         </main>
         <Footer />
