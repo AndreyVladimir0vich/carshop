@@ -4,7 +4,7 @@ import { UserContext } from '../context/userContext'
 import s from './CatalogPage.module.css'
 
 export const CatalogPage = () => {
-  const { setSortCards } = useContext(UserContext)
+  const { setSortCards, cards } = useContext(UserContext)
   const sortedItems = [
     { id: 'Новые' },
     { id: 'Сначала дешевые' },
@@ -24,7 +24,7 @@ export const CatalogPage = () => {
           </span>
         ))}
       </div>
-      <CardList />
+      <CardList cards={cards} />
     </>
   )
 }

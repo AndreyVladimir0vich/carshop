@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Accordion from '../accordion/Accordion'
+import { UserContext } from '../context/userContext'
 
 const dataFaq = [
   {
@@ -53,8 +54,12 @@ const dataFaq = [
 ]
 
 const FaqPage = () => {
+  const { navigate } = useContext(UserContext)
   return (
     <>
+      <button className="btn" onClick={() => navigate('/')}>
+        В каталог
+      </button>
       <h1>Часто спрашивают</h1>
       {dataFaq.map((element, index) => (
         <Accordion key={index} title={element.title}>

@@ -6,13 +6,13 @@ import quality from './image/quality.svg'
 import { ReactComponent as Save } from './image/save.svg'
 import { useEffect, useState } from 'react'
 import { api } from '../utils/api'
-import { Link } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
+import { findLike } from '../utils/utils'
 
 export const Product = ({ id }) => {
-  const { currentUser, setParentCounter } = useContext(UserContext)
+  const { currentUser, setParentCounter, navigate } = useContext(UserContext)
   const [product, setProduct] = useState({})
-  const isLiked = product?.likes?.some((el) => el === currentUser._id)
+  const isLiked = findLike(product, currentUser)
   const calcDiscountPrice = Math.round(
     product.price - (product.price * product.discount) / 100
   )
@@ -89,9 +89,9 @@ export const Product = ({ id }) => {
               </p>
             </div>
           </div>
-          <Link to={'/'} className="card__card btn btn_type_primary">
-            Вернутся в каталог
-          </Link>
+          <button className="btn" onClick={() => navigate('/')}>
+            В каталог
+          </button>
         </div>
       </div>
 

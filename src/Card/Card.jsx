@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../context/userContext'
+import { findLike } from '../utils/utils'
 
 export const Card = ({
   product,
@@ -16,7 +17,7 @@ export const Card = ({
 }) => {
   const { currentUser } = useContext(UserContext)
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
-  const isLiked = product.likes.some((id) => id === currentUser._id)
+  const isLiked = findLike(product, currentUser)
 
   const handleLikeClick = () => {
     handleProductLike(product)
