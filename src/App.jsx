@@ -6,11 +6,13 @@ import { ProductPage } from './pages/ProductPage'
 import { UserContext } from './context/userContext'
 import { Header } from './Header/Header'
 import { Footer } from './Footer/Footer'
+import { Modal } from './Modal/Modal'
 import { api } from './utils/api'
 import SearchInfo from './SearchInfo/SearchInfo'
 import Page404 from './pages/Page404'
 import FaqPage from './pages/FaqPage'
 import FavouritesPage from './pages/FavouritesPage'
+import { RegistrationForm } from './Form/RegistrationForm'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -18,6 +20,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({})
   const [parentCounter, setParentCounter] = useState(0)
   const [favourites, setFavourites] = useState([])
+  const [activeModal, setShowModal] = useState(false)
   const debounceValueInApp = useDebounce(searchQuery, 400)
   const navigate = useNavigate()
 
@@ -60,6 +63,12 @@ function App() {
           : (stateFavour) => stateFavour.filter((f) => f._id !== newCard._id)
       )
     })
+  }
+
+  const sendData = async (data) => {
+    // setFormData((s) => [...s, data]);
+    const result = await api.registerUser({ ...data, group: '' })
+    console.log({ result })
   }
 
   // const handleUpdateUser = (userUpdate) => {
@@ -111,6 +120,11 @@ function App() {
     <>
       <UserContext.Provider value={contextValue}>
         <Header />
+
+        <button onClick={() => setShowModal(true)}>show modal</button>
+        <Modal activeModal={activeModal} setShowModal={setShowModal}>
+          <RegistrationForm sendData={sendData} />
+        </Modal>
         <main className="content container">
           {/* <button onClick={() => addCardinDB()}>add</button> */}
           <SearchInfo />

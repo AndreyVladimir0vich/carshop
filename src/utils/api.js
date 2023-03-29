@@ -50,6 +50,14 @@ class Api {
     }).then((res) => onResponse(res))
   }
 
+  registerUser(data) {
+    return fetch(`${this._baseUrl}/signup`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(data),
+    }).then((res) => onResponse(res))
+  }
+
   searchProducts(query) {
     return fetch(`${this._baseUrl}/products/search?query=${query}`, {
       headers: this._headers,
