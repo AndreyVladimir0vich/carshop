@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import { Logo } from '../Logo/Logo'
 import { Search } from '../Search/Search'
@@ -11,13 +11,26 @@ import s from './Header.module.css'
 import './index.css'
 
 export const Header = () => {
-  const { currentUser, parentCounter, setSearchQuery, favourites } =
-    useContext(UserContext)
+  const {
+    currentUser,
+    parentCounter,
+    setSearchQuery,
+    favourites,
+    setShowModal,
+    isAuthentificated,
+  } = useContext(UserContext)
   const [counter, setCounter] = useState(parentCounter)
 
   useEffect(() => {
     setCounter((st) => st + 1)
   }, [parentCounter])
+
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/login')
+  }
 
   return (
     <div className="header" id="head">
@@ -37,17 +50,27 @@ export const Header = () => {
             )}
           </Link>
           <div className={s.userIcon}>
-            <Link to="/login">
-              <UserIcon />
-            </Link>
+            {!isAuthentificated ? (
+              <Link
+                to={'/login'}
+                className="btn"
+                onClick={() => setShowModal(true)}
+              >
+                Login
+              </Link>
+            ) : (
+              <span onClick={handleLogout} className="btn">
+                logout
+              </span>
+            )}
           </div>
 
-          {/* <div>
+          <div>
             {currentUser.email && <span>{currentUser.email}</span>}{' '}
             {currentUser.email && <span>{currentUser.name}</span>}{' '}
             {currentUser.about ? <span>{currentUser.about}</span> : null}{' '}
-            <button onClick={handleClickButtonEdit}>Изменить</button>
-          </div> */}
+            {/* <button onClick={handleClickButtonEdit}>Изменить</button> */}
+          </div>
         </div>
       </div>
     </div>

@@ -8,10 +8,14 @@ import { useEffect, useState } from 'react'
 import { api } from '../utils/api'
 import { UserContext } from '../context/userContext'
 import { findLike } from '../utils/utils'
+import { Rating } from '../Rating/Rating'
 
 export const Product = ({ id }) => {
   const { currentUser, setParentCounter, navigate } = useContext(UserContext)
   const [product, setProduct] = useState({})
+  const [rate, setRate] = useState(3)
+  const [currentRating, setCurrentRating] = useState(0)
+
   const isLiked = findLike(product, currentUser)
   const calcDiscountPrice = Math.round(
     product.price - (product.price * product.discount) / 100
@@ -21,8 +25,33 @@ export const Product = ({ id }) => {
     api.getProductById(id).then((data) => setProduct(data))
   }, [id])
 
+  useEffect(() => {
+    if (!product?.reviews) return
+    const rateAcc = product.reviews.reduce(
+      (acc, el) => (acc = acc + el.rating),
+      0
+    )
+    const accum = Math.floor(rateAcc / product.reviews.length)
+    setRate(accum)
+    setCurrentRating(accum)
+  }, [product?.reviews])
+
   return (
     <>
+      <div>
+        <span className="auth__info" onClick={() => navigate(-1)}>
+          {' '}
+          {'< '} Назад
+        </span>
+        <h1>{product.name}</h1>
+        <div className={s.rateInfo}>
+          <span>
+            Art <b>2388907</b>
+          </span>
+          <Rating rate={rate} setRate={setRate} currentRating={currentRating} />
+          <span>{product?.reviews?.length} отзывов</span>
+        </div>
+      </div>
       <div className={s.product}>
         <div className={s.imgWrapper}>
           <img
@@ -36,7 +65,7 @@ export const Product = ({ id }) => {
         </div>
 
         <div className={s.desc}>
-          <span className={s.price}>{product.name}</span>
+          {/* <span className={s.price}>{product.name}</span> */}
           <span
             className={
               product.discount !== 0 ? 'card__old-price' : 'card__price'

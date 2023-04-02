@@ -1,0 +1,7 @@
+.not__auth {
+  display: flex;
+  min-height: 505px;
+  flex: 1 0 auto;
+  justify-content: center;
+  align-items: center;
+}

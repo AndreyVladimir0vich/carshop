@@ -12,7 +12,11 @@ import SearchInfo from './SearchInfo/SearchInfo'
 import Page404 from './pages/Page404'
 import FaqPage from './pages/FaqPage'
 import FavouritesPage from './pages/FavouritesPage'
-import { RegistrationForm } from './Form/RegistrationForm'
+import { Login } from './Auth/Login'
+import { Register } from './Auth/Register'
+import { ResetPassword } from './Auth/ResetPassword'
+import { parseJwt } from './utils/parseJWT'
+import './App.css'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -21,6 +25,7 @@ function App() {
   const [parentCounter, setParentCounter] = useState(0)
   const [favourites, setFavourites] = useState([])
   const [activeModal, setShowModal] = useState(false)
+  const [isAuthentificated, setIsAuthentificated] = useState(false)
   const debounceValueInApp = useDebounce(searchQuery, 400)
   const navigate = useNavigate()
 
@@ -47,7 +52,7 @@ function App() {
         setFavourites(favouritesCard)
       }
     )
-  }, [])
+  }, [isAuthentificated])
 
   const handleProductLike = (product) => {
     const isLiked = findLike(product, currentUser)
@@ -63,12 +68,6 @@ function App() {
           : (stateFavour) => stateFavour.filter((f) => f._id !== newCard._id)
       )
     })
-  }
-
-  const sendData = async (data) => {
-    // setFormData((s) => [...s, data]);
-    const result = await api.registerUser({ ...data, group: '' })
-    console.log({ result })
   }
 
   // const handleUpdateUser = (userUpdate) => {
@@ -109,33 +108,91 @@ function App() {
     searchQuery,
     parentCounter,
     favourites,
+    activeModal,
+    isAuthentificated,
     navigate,
     setFavourites,
     setSearchQuery,
     setParentCounter,
     setSortCards,
     handleProductLike,
+    setShowModal,
   }
+
+  useEffect(() => {
+    // const authPath = ['/reset-password', '/register']
+    const token = localStorage.getItem('token')
+    const uncodedToken = parseJwt(token)
+    if (uncodedToken?._id) {
+      setIsAuthentificated(true)
+    }
+  }, [navigate])
+
+  const authRoutes = (
+    <>
+      {' '}
+      <Route
+        path="login"
+        element={
+          <Modal activeModal={activeModal} setShowModal={setShowModal}>
+            <Login setShowModal={setShowModal} />
+          </Modal>
+        }
+      ></Route>
+      <Route
+        path="register"
+        element={
+          <Modal activeModal={activeModal} setShowModal={setShowModal}>
+            <Register setShowModal={setShowModal} />
+          </Modal>
+        }
+      ></Route>
+      <Route
+        path="reset-password"
+        element={
+          <Modal activeModal={activeModal} setShowModal={setShowModal}>
+            <ResetPassword setShowModal={setShowModal} />
+          </Modal>
+        }
+      ></Route>
+    </>
+  )
+
   return (
     <>
       <UserContext.Provider value={contextValue}>
         <Header />
-
-        <button onClick={() => setShowModal(true)}>show modal</button>
-        <Modal activeModal={activeModal} setShowModal={setShowModal}>
-          <RegistrationForm sendData={sendData} />
-        </Modal>
-        <main className="content container">
-          {/* <button onClick={() => addCardinDB()}>add</button> */}
-          <SearchInfo />
-          <Routes>
-            <Route path="/" element={<CatalogPage />}></Route>
-            <Route path="/product/:productId" element={<ProductPage />}></Route>
-            <Route path="*" element={<Page404 />}></Route>
-            <Route path="faq" element={<FaqPage />}></Route>
-            <Route path="favourites" element={<FavouritesPage />}></Route>
-          </Routes>
-        </main>
+        {isAuthentificated ? (
+          <main className="content container">
+            {/* <button onClick={() => addCardinDB()}>add</button> */}
+            <SearchInfo />
+            <Routes>
+              <Route path="/" element={<CatalogPage />}></Route>
+              <Route
+                path="/product/:productId"
+                element={<ProductPage />}
+              ></Route>
+              <Route path="*" element={<Page404 />}></Route>
+              <Route path="faq" element={<FaqPage />}></Route>
+              <Route path="favourites" element={<FavouritesPage />}></Route>
+              {authRoutes}
+              <Route
+                path="login"
+                element={
+                  <Modal
+                    activeModal={activeModal}
+                    setShowModal={setShowModal}
+                  ></Modal>
+                }
+              ></Route>
+            </Routes>
+          </main>
+        ) : (
+          <div className="not__auth">
+            Пожалуйста, авторизуйтесь
+            <Routes>{authRoutes}</Routes>
+          </div>
+        )}
         <Footer />
       </UserContext.Provider>
     </>
