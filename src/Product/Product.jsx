@@ -5,25 +5,25 @@ import truck from './image/truck.svg'
 import quality from './image/quality.svg'
 import { ReactComponent as Save } from './image/save.svg'
 import { useEffect, useState } from 'react'
-import { api } from '../utils/api'
 import { UserContext } from '../context/userContext'
 import { findLike } from '../utils/utils'
 import { Rating } from '../Rating/Rating'
+import { api } from '../utils/api'
 
-export const Product = ({ id }) => {
+export const Product = ({ id, product }) => {
   const { currentUser, setParentCounter, navigate } = useContext(UserContext)
-  const [product, setProduct] = useState({})
+
   const [rate, setRate] = useState(3)
+  const [users, setUsers] = useState(3)
   const [currentRating, setCurrentRating] = useState(0)
+  const [reviewsProduct, setReviewsProduct] = useState(
+    product?.reviews.slice(0, 5) ?? []
+  )
 
   const isLiked = findLike(product, currentUser)
   const calcDiscountPrice = Math.round(
     product.price - (product.price * product.discount) / 100
   )
-
-  useEffect(() => {
-    api.getProductById(id).then((data) => setProduct(data))
-  }, [id])
 
   useEffect(() => {
     if (!product?.reviews) return
@@ -35,6 +35,16 @@ export const Product = ({ id }) => {
     setRate(accum)
     setCurrentRating(accum)
   }, [product?.reviews])
+
+  useEffect(() => {
+    api.getUsers().then((data) => setUsers(data))
+  }, [])
+
+  const getUser = (id) => {
+    if (!users.length) return 'User'
+    const user = users.find((e) => e._id === id)
+    return user.name
+  }
 
   return (
     <>
@@ -151,6 +161,25 @@ export const Product = ({ id }) => {
             <p>Следует учесть высокую калорийность продукта.</p>
           </div>
         </div>
+      </div>
+      <div>
+        <h2>Отзывы:</h2>
+        {reviewsProduct.map((r) => (
+          <div key={r._id} className={s.review}>
+            <div className={s.review__author}>
+              <div>
+                <span>{getUser(r.author)}</span>{' '}
+                <span className={s.review__date}>
+                  {new Date(r.created_at).toLocaleString()}
+                </span>
+              </div>
+              <Rating rate={r.rating} isEditable={false} />
+            </div>
+            <div className={s.text}>
+              <span>{r.text}</span>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   )

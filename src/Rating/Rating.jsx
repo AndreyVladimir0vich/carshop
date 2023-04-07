@@ -14,18 +14,22 @@ export const Rating = ({
   const [ratingArr, setRatingArr] = useState(emptyFragments)
 
   const changeDisplay = (rate) => {
-    setRate(rate)
+    // setRate(rate)
+    if (!isEditable) return
+    constructRaiting(rate)
   }
 
   const changeRating = (r) => {
+    if (!isEditable) return
     setRate(r)
   }
 
-  useEffect(() => {
+  const constructRaiting = (rating) => {
     const updatedArray = ratingArr.map((ratingEl, index) => (
       <Star
         className={cn(s.star, {
-          [s.filled]: index < rate,
+          [s.filled]: index < rating,
+          [s.editable]: isEditable,
         })}
         onMouseEnter={() => changeDisplay(index + 1)}
         onMouseLeave={() => changeDisplay(rate)}
@@ -33,7 +37,11 @@ export const Rating = ({
       />
     ))
     setRatingArr(updatedArray)
-  }, [rate])
+  }
+
+  useEffect(() => {
+    constructRaiting(rate)
+  }, [isEditable])
 
   return (
     <div>

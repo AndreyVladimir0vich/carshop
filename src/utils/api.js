@@ -53,6 +53,12 @@ class Api {
     }).then((res) => onResponse(res))
   }
 
+  getUsers() {
+    return fetch(`${this._baseUrl}/users`, {
+      ...this._freshHeaders(),
+    }).then((res) => onResponse(res))
+  }
+
   setUserInfo(dataUser) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
