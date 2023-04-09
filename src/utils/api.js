@@ -79,6 +79,14 @@ class Api {
       ...this._freshHeaders(),
     }).then((res) => onResponse(res))
   }
+
+  addReview(productId, body) {
+    return fetch(`${this._baseUrl}/products/review/${productId}`, {
+      method: 'POST',
+      ...this._freshHeaders(),
+      body: JSON.stringify(body),
+    }).then((res) => onResponse(res))
+  }
 }
 
 export const api = new Api(config)

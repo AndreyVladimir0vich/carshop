@@ -49,6 +49,7 @@ export const Header = () => {
               <span className={s.iconBubble}>{favourites.length}</span>
             )}
           </Link>
+          <Link to="/user">User</Link>
           <div className={s.userIcon}>
             {!isAuthentificated ? (
               <Link
@@ -63,13 +64,6 @@ export const Header = () => {
                 logout
               </span>
             )}
-          </div>
-
-          <div>
-            {currentUser.email && <span>{currentUser.email}</span>}{' '}
-            {currentUser.email && <span>{currentUser.name}</span>}{' '}
-            {currentUser.about ? <span>{currentUser.about}</span> : null}{' '}
-            {/* <button onClick={handleClickButtonEdit}>Изменить</button> */}
           </div>
         </div>
       </div>

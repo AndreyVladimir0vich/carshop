@@ -17,6 +17,7 @@ import { Register } from './Auth/Register'
 import { ResetPassword } from './Auth/ResetPassword'
 import { parseJwt } from './utils/parseJWT'
 import './App.css'
+import UserPage from './pages/UserPage'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -56,7 +57,6 @@ function App() {
 
   const handleProductLike = (product) => {
     const isLiked = findLike(product, currentUser)
-    console.log('>>>>>', isLiked)
     api.changeLikeProductStatus(product._id, !isLiked).then((newCard) => {
       const newCards = cards.map((c) => {
         return c._id === newCard._id ? newCard : c
@@ -174,6 +174,7 @@ function App() {
               ></Route>
               <Route path="*" element={<Page404 />}></Route>
               <Route path="faq" element={<FaqPage />}></Route>
+              <Route path="user" element={<UserPage />}></Route>
               <Route path="favourites" element={<FavouritesPage />}></Route>
               {authRoutes}
               <Route

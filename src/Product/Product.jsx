@@ -9,21 +9,43 @@ import { UserContext } from '../context/userContext'
 import { findLike } from '../utils/utils'
 import { Rating } from '../Rating/Rating'
 import { api } from '../utils/api'
+import { BaseButton } from '../BaseButton/BaseButton'
+import { Form } from '../Form/Form'
+import { useForm } from 'react-hook-form'
 
-export const Product = ({ id, product }) => {
-  const { currentUser, setParentCounter, navigate } = useContext(UserContext)
-
+export const Product = ({ onSendReview, product }) => {
+  const { currentUser, setParentCounter, navigate, handleProductLike } =
+    useContext(UserContext)
   const [rate, setRate] = useState(3)
   const [users, setUsers] = useState(3)
   const [currentRating, setCurrentRating] = useState(0)
   const [reviewsProduct, setReviewsProduct] = useState(
     product?.reviews.slice(0, 5) ?? []
   )
-
-  const isLiked = findLike(product, currentUser)
   const calcDiscountPrice = Math.round(
     product.price - (product.price * product.discount) / 100
   )
+  const [showFormReview, setShowFormReview] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onSubmit' })
+
+  const sendReview = async (data) => {
+    const newProd = await api.addReview(product._id, { text: data.review })
+    setReviewsProduct((state) => [...newProd.reviews])
+    onSendReview(newProd)
+    setShowFormReview(false)
+  }
+
+  const isLiked = findLike(product, currentUser)
+  const [isLikedProd, setIslikedProd] = useState(isLiked)
+
+  const handleLikeClick = () => {
+    handleProductLike(product)
+    setIslikedProd((state) => !state)
+  }
 
   useEffect(() => {
     if (!product?.reviews) return
@@ -45,6 +67,8 @@ export const Product = ({ id, product }) => {
     const user = users.find((e) => e._id === id)
     return user.name
   }
+
+  const textRegister = register('review', { required: 'Отзыв Обязателен' })
 
   return (
     <>
@@ -106,9 +130,12 @@ export const Product = ({ id, product }) => {
               В корзину
             </span>
           </div>
-          <button className={cn(s.favorite, { [s.favoriteActive]: isLiked })}>
+          <button
+            className={cn(s.favorite, { [s.favoriteActive]: isLikedProd })}
+            onClick={handleLikeClick}
+          >
             <Save />
-            <span>{isLiked ? 'В избранном' : 'В избранное'}</span>
+            <span>{isLikedProd ? 'В избранном' : 'В избранное'}</span>
           </button>
           <div className={s.delivery}>
             <img src={truck} alt="truck" />
@@ -163,6 +190,18 @@ export const Product = ({ id, product }) => {
         </div>
       </div>
       <div>
+        <BaseButton onClick={() => setShowFormReview(true)}>
+          Добавить отзыв
+        </BaseButton>
+        {showFormReview && (
+          <div>
+            <Form submitForm={handleSubmit(sendReview)}>
+              <span>Оставте ваш отзыв</span>
+              <textarea {...textRegister}></textarea>
+              <BaseButton type="submit">Отправить отзыв</BaseButton>
+            </Form>
+          </div>
+        )}
         <h2>Отзывы:</h2>
         {reviewsProduct.map((r) => (
           <div key={r._id} className={s.review}>
