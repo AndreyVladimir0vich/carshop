@@ -12,6 +12,7 @@ import { api } from '../utils/api'
 import { BaseButton } from '../BaseButton/BaseButton'
 import { Form } from '../Form/Form'
 import { useForm } from 'react-hook-form'
+import { ReactComponent as BasketIcon } from './image/basket.svg'
 
 export const Product = ({ onSendReview, product }) => {
   const { currentUser, setParentCounter, navigate, handleProductLike } =
@@ -29,14 +30,19 @@ export const Product = ({ onSendReview, product }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' })
 
   const sendReview = async (data) => {
-    const newProd = await api.addReview(product._id, { text: data.review })
+    const newProd = await api.addReview(product._id, {
+      text: data.review,
+      rating: rate,
+    })
     setReviewsProduct((state) => [...newProd.reviews])
     onSendReview(newProd)
     setShowFormReview(false)
+    reset()
   }
 
   const isLiked = findLike(product, currentUser)
@@ -65,10 +71,15 @@ export const Product = ({ onSendReview, product }) => {
   const getUser = (id) => {
     if (!users.length) return 'User'
     const user = users.find((e) => e._id === id)
-    return user.name
+    return user
   }
 
   const textRegister = register('review', { required: 'Отзыв Обязателен' })
+
+  const deleteReview = async (id) => {
+    const result = await api.deleteReview(product._id, id)
+    setReviewsProduct(() => [...result.reviews])
+  }
 
   return (
     <>
@@ -82,7 +93,7 @@ export const Product = ({ onSendReview, product }) => {
           <span>
             Art <b>2388907</b>
           </span>
-          <Rating rate={rate} setRate={setRate} currentRating={currentRating} />
+          <Rating rate={currentRating} setRate={() => {}} />
           <span>{product?.reviews?.length} отзывов</span>
         </div>
       </div>
@@ -193,32 +204,46 @@ export const Product = ({ onSendReview, product }) => {
         <BaseButton onClick={() => setShowFormReview(true)}>
           Добавить отзыв
         </BaseButton>
+        <p> </p>
         {showFormReview && (
-          <div>
-            <Form submitForm={handleSubmit(sendReview)}>
-              <span>Оставте ваш отзыв</span>
-              <textarea {...textRegister}></textarea>
-              <BaseButton type="submit">Отправить отзыв</BaseButton>
-            </Form>
-          </div>
+          <Form
+            className={s.review__form}
+            submitForm={handleSubmit(sendReview)}
+          >
+            <Rating rate={rate} isEditable={true} setRate={setRate} />
+            <span>Оставте ваш отзыв</span>
+            <textarea className={s.review__text} {...textRegister}></textarea>
+            <BaseButton type="submit">Отправить отзыв</BaseButton>
+          </Form>
         )}
-        <h2>Отзывы:</h2>
-        {reviewsProduct.map((r) => (
-          <div key={r._id} className={s.review}>
-            <div className={s.review__author}>
-              <div>
-                <span>{getUser(r.author)}</span>{' '}
-                <span className={s.review__date}>
-                  {new Date(r.created_at).toLocaleString()}
-                </span>
+        {reviewsProduct
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .map((r) => (
+            <div key={r._id} className={s.review}>
+              <div className={s.review__author}>
+                <div className={s.review__info}>
+                  <img
+                    src={getUser(r.author)?.avatar}
+                    className={s.review__avatar}
+                  />
+                  <span>{getUser(r.author)?.name ?? 'User'}</span>
+                  <span className={s.review__date}>
+                    {new Date(r.created_at).toLocaleString()}
+                  </span>
+                  {currentUser._id === r.author && (
+                    <BasketIcon
+                      onClick={() => deleteReview(r._id)}
+                      className={s.review__basket__icon}
+                    ></BasketIcon>
+                  )}
+                </div>
+                <Rating rate={r.rating} isEditable={false} />
               </div>
-              <Rating rate={r.rating} isEditable={false} />
+              <div className={s.text}>
+                <span>{r.text}</span>
+              </div>
             </div>
-            <div className={s.text}>
-              <span>{r.text}</span>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </>
   )

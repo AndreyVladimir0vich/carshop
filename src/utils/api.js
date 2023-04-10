@@ -87,6 +87,13 @@ class Api {
       body: JSON.stringify(body),
     }).then((res) => onResponse(res))
   }
+
+  deleteReview(productId, reviewId) {
+    return fetch(`${this._baseUrl}/products/review/${productId}/${reviewId}`, {
+      ...this._freshHeaders(),
+      method: 'DELETE',
+    }).then((res) => onResponse(res))
+  }
 }
 
 export const api = new Api(config)

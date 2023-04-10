@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ReactComponent as Star } from './star.svg'
 import cn from 'classnames'
 import s from './index.module.css'
@@ -24,24 +24,27 @@ export const Rating = ({
     setRate(r)
   }
 
-  const constructRaiting = (rating) => {
-    const updatedArray = ratingArr.map((ratingEl, index) => (
-      <Star
-        className={cn(s.star, {
-          [s.filled]: index < rating,
-          [s.editable]: isEditable,
-        })}
-        onMouseEnter={() => changeDisplay(index + 1)}
-        onMouseLeave={() => changeDisplay(rate)}
-        onClick={() => changeRating(index + 1)}
-      />
-    ))
-    setRatingArr(updatedArray)
-  }
+  const constructRaiting = useCallback(
+    (rating) => {
+      const updatedArray = ratingArr.map((ratingEl, index) => (
+        <Star
+          className={cn(s.star, {
+            [s.filled]: index < rating,
+            [s.editable]: isEditable,
+          })}
+          onMouseEnter={() => changeDisplay(index + 1)}
+          onMouseLeave={() => changeDisplay(rate)}
+          onClick={() => changeRating(index + 1)}
+        />
+      ))
+      setRatingArr(updatedArray)
+    },
+    [isEditable, rate]
+  )
 
   useEffect(() => {
     constructRaiting(rate)
-  }, [isEditable])
+  }, [constructRaiting])
 
   return (
     <div>
