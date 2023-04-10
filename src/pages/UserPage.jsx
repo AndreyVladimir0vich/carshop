@@ -4,7 +4,7 @@ import { UserContext } from '../context/userContext'
 import { BaseButton } from '../BaseButton/BaseButton'
 import s from './Page404.module.css'
 
-const UserPage = () => {
+const Userpage = () => {
   const { currentUser, navigate } = useContext(UserContext)
 
   return (
@@ -20,4 +20,4 @@ const UserPage = () => {
   )
 }
 
-export default UserPage
+export default Userpage

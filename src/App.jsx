@@ -17,7 +17,7 @@ import { Register } from './Auth/Register'
 import { ResetPassword } from './Auth/ResetPassword'
 import { parseJwt } from './utils/parseJWT'
 import './App.css'
-import UserPage from './pages/UserPage'
+import Userpage from './pages/Userpage'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -174,7 +174,7 @@ function App() {
               ></Route>
               <Route path="*" element={<Page404 />}></Route>
               <Route path="faq" element={<FaqPage />}></Route>
-              <Route path="user" element={<UserPage />}></Route>
+              <Route path="user" element={<Userpage />}></Route>
               <Route path="favourites" element={<FavouritesPage />}></Route>
               {authRoutes}
               <Route
