@@ -1,0 +1,36 @@
+.userpage {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.userPage__inputs {
+  width: 100%;
+  border-radius: 24px;
+  border: 1px solid;
+  padding: 13px 60px 13px 20px;
+  color: #000;
+  font-size: 16px;
+  line-height: 20px;
+  caret-color: #feba0c;
+}
+
+.userPage__inputs_sm {
+  width: 100%;
+  border-radius: 24px;
+  border: 1px solid;
+  padding: 13px 60px 13px 20px;
+  color: #000;
+  font-size: 16px;
+  line-height: 20px;
+  caret-color: #feba0c;
+}
+
+.user__ava {
+  width: 200px;
+  height: 200px;
+  border-radius: 20%;
+}

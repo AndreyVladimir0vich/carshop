@@ -32,7 +32,7 @@
 
 .card__old-price {
   font-size: 12px;
-  /* position: absolute; */
+  position: absolute;
   top: 0;
   left: 0;
   font-weight: 600;
@@ -99,18 +99,15 @@
   padding: 0;
   display: flex;
 }
-
-.card__favorite svg {
-  fill: #ffffff;
+.card__favorite_active {
+  fill: red;
   stroke-width: 1px;
-  stroke: #7b8e98;
 }
-
-.card__favorite_is-active svg {
-  fill: #f44336;
-  stroke-width: 0;
+.card__favorite_not_active {
+  fill: transparent;
+  stroke: black;
+  stroke-width: 0.5px;
 }
-
 .card__cart {
   margin-top: auto;
 }
@@ -126,11 +123,9 @@
   font-weight: 700;
   line-height: 20px;
   border-radius: 55px;
-  border: 1px solid #7b8e98;
   text-decoration: none;
   display: inline-block;
   transition: background-color 0.3s;
-  cursor: pointer;
 }
 
 .btn_type_primary {
@@ -147,6 +142,7 @@
   font-weight: 800;
   font-size: 16px;
   line-height: 20px;
+  position: absolute;
 }
 
 .tag_type_new {
@@ -156,4 +152,10 @@
 .tag_type_sale {
   background-color: #01a54e;
   color: #ffffff;
+}
+/* svg {
+    fill: red;
+} */
+.card__liked > svg {
+  fill: red;
 }

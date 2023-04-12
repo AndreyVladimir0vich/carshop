@@ -6,7 +6,7 @@ export const Modal = ({ activeModal, children, setShowModal }) => {
     <>
       <div
         className={cn('modal', { ['active']: activeModal })}
-        onClick={() => setShowModal(false)}
+        // onClick={() => setShowModal(false)}
       >
         <div
           className={cn('modal_content', { ['active']: activeModal })}

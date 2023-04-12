@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-
+import { ReactComponent as Like } from '../Card/like.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import { Logo } from '../Logo/Logo'
 import { Search } from '../Search/Search'
 import IconBasket from './basketMaterial/BasketMaterial'
 import { ReactComponent as FavouriteIcon } from './img/favorites.svg'
-import { ReactComponent as UserIcon } from './img/profile.svg'
+
 import s from './Header.module.css'
 import './index.css'
 
@@ -43,13 +43,21 @@ export const Header = () => {
           <div>
             <IconBasket count={counter} />
           </div>
-          <Link className={s.favouritesLink} to="/favourites">
+          {/* <Link className={s.favouritesLink} to="/favourites">
             <FavouriteIcon />
             {favourites.length !== 0 && (
               <span className={s.iconBubble}>{favourites.length}</span>
             )}
-          </Link>
-          <Link to="/user">User</Link>
+          </Link> */}
+          <div>
+            <Link to={'/favourites'} className="header__bubble-link">
+              <FavouriteIcon />
+              {favourites.length !== 0 && (
+                <span className="header__bubble">{favourites.length}</span>
+              )}
+            </Link>
+          </div>
+
           <div className={s.userIcon}>
             {!isAuthentificated ? (
               <Link
@@ -60,9 +68,9 @@ export const Header = () => {
                 Login
               </Link>
             ) : (
-              <span onClick={handleLogout} className="btn">
-                logout
-              </span>
+              <Link to="/user">
+                <img className={s.user__ava} src={currentUser.avatar}></img>
+              </Link>
             )}
           </div>
         </div>

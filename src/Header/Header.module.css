@@ -1,66 +1,68 @@
-
 .header {
-    width: 100%;
-    background-color: #fed700;
-    padding: 12px 0;
+  width: 100%;
+  background-color: #fed700;
+  padding: 12px 0;
+  flex: 0 0 auto;
 }
 
 .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
 }
 
 .iconsMenu {
-    display: flex;
-    column-gap: 10px;
+  display: flex;
+  column-gap: 10px;
 }
 
 .favouritesLink {
-    position: relative;
-    width: 34px;
-    height: 34px;
+  position: relative;
+  width: 40px;
+  height: 40px;
 }
 
-.userIcon {
-    cursor: pointer;
+.user__ava {
+  width: 40px;
+  height: 40px;
+  border-radius: 20%;
 }
 
 .userIcon svg:hover {
-    opacity: .8;
+  opacity: 0.8;
 }
 
-.iconsMenu svg{
-    width: 100%;
-    height: 100%;
+.iconsMenu svg {
+  width: 100%;
+  height: 100%;
 }
 
 .iconsMenu svg:hover {
-    opacity: .8;
+  opacity: 0.8;
 }
 
-.iconBubble{
-    background-color: #01A54E;
-    border-radius: 50%;
-    color: #FFFFFF;
-    font-size: 14px;
-    width: 22px;
-    height: 22px;
-    line-height: 1.25;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    position: absolute;
-    bottom: 60%;
-    left: 70%;
+.iconBubble {
+  background-color: #01a54e;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 14px;
+  width: 22px;
+  height: 22px;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 60%;
+  left: 70%;
 }
 
 @media (max-width: 700px) {
-    .wrapper {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 20px;
-    }
+  .wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
 }

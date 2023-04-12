@@ -117,6 +117,7 @@ function App() {
     setSortCards,
     handleProductLike,
     setShowModal,
+    setCurrentUser,
   }
 
   useEffect(() => {

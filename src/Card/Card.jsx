@@ -33,12 +33,12 @@ export const Card = ({
 
       <div className="card__sticky card__sticky_type_top-right">
         <button
-          className={cn('card__favorite', {
-            'card__favorite_is-active': isLiked,
-          })}
+          className={`card__favorite ${
+            isLiked ? 'card__favorite_active' : 'card__favorite_not_active'
+          }`}
           onClick={handleLikeClick}
         >
-          <Like />
+          <Like className="card__liked" />
         </button>
       </div>
 

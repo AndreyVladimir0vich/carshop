@@ -59,6 +59,22 @@ class Api {
     }).then((res) => onResponse(res))
   }
 
+  updateAvatar(avatar) {
+    return fetch(`${this._baseUrl}/v2/front-10/users/me/avatar`, {
+      method: 'PATCH',
+      body: JSON.stringify(avatar),
+      ...this._freshHeaders(),
+    }).then((res) => onResponse(res))
+  }
+
+  updateUserInfo(body) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      ...this._freshHeaders(),
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    }).then((res) => onResponse(res))
+  }
+
   setUserInfo(dataUser) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
