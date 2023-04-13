@@ -6,7 +6,6 @@ import quality from './image/quality.svg'
 import { ReactComponent as Save } from './image/save.svg'
 import { useEffect, useState } from 'react'
 import { UserContext } from '../context/userContext'
-import { findLike } from '../utils/utils'
 import { Rating } from '../Rating/Rating'
 import { api } from '../utils/api'
 import { BaseButton } from '../BaseButton/BaseButton'
@@ -14,7 +13,7 @@ import { Form } from '../Form/Form'
 import { useForm } from 'react-hook-form'
 import { ReactComponent as BasketIcon } from './image/basket.svg'
 
-export const Product = ({ onSendReview, product }) => {
+export const Product = ({ onProductLike, onSendReview, product }) => {
   const { currentUser, setParentCounter, navigate, handleProductLike } =
     useContext(UserContext)
   const [rate, setRate] = useState(3)
@@ -45,12 +44,15 @@ export const Product = ({ onSendReview, product }) => {
     reset()
   }
 
-  const isLiked = findLike(product, currentUser)
-  const [isLikedProd, setIslikedProd] = useState(isLiked)
+  useEffect(() => {
+    const isLiked = product?.likes?.some((el) => el === currentUser._id)
+    setIsLikedProduct(isLiked)
+  }, [product.likes])
 
-  const handleLikeClick = () => {
-    handleProductLike(product)
-    setIslikedProd((state) => !state)
+  const [isLikedProduct, setIsLikedProduct] = useState(false)
+
+  const onLike = (e) => {
+    onProductLike(product)
   }
 
   useEffect(() => {
@@ -142,11 +144,11 @@ export const Product = ({ onSendReview, product }) => {
             </span>
           </div>
           <button
-            className={cn(s.favorite, { [s.favoriteActive]: isLikedProd })}
-            onClick={handleLikeClick}
+            className={cn(s.favorite, { [s.favoriteActive]: isLikedProduct })}
+            onClick={onLike}
           >
             <Save />
-            <span>{isLikedProd ? 'В избранном' : 'В избранное'}</span>
+            <span>{isLikedProduct ? 'В избранном' : 'В избранное'}</span>
           </button>
           <div className={s.delivery}>
             <img src={truck} alt="truck" />

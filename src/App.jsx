@@ -68,6 +68,7 @@ function App() {
           : (stateFavour) => stateFavour.filter((f) => f._id !== newCard._id)
       )
     })
+    return isLiked
   }
 
   // const handleUpdateUser = (userUpdate) => {

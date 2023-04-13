@@ -1,5 +1,7 @@
 import { ReactComponent as Like } from './like.svg'
+import { ReactComponent as Save } from './save.svg'
 import './index.css'
+import s from './index.module.css'
 import cn from 'classnames'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
@@ -33,12 +35,10 @@ export const Card = ({
 
       <div className="card__sticky card__sticky_type_top-right">
         <button
-          className={`card__favorite ${
-            isLiked ? 'card__favorite_active' : 'card__favorite_not_active'
-          }`}
+          className={cn(s.favorite, { [s.favoriteActive]: isLiked })}
           onClick={handleLikeClick}
         >
-          <Like className="card__liked" />
+          <Save />
         </button>
       </div>
 

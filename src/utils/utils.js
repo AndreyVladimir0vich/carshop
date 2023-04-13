@@ -9,7 +9,6 @@ export const getIssues = (numb) => {
 
 export const useDebounce = (searchQuery, delay) => {
   const [debounceValue, setDebounceValue] = useState(searchQuery)
-  console.log({ searchQuery })
 
   useEffect(() => {
     const timeout = setTimeout(() => {

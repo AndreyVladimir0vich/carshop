@@ -6,11 +6,22 @@ import { UserContext } from '../context/userContext'
 
 export const ProductPage = () => {
   const id = useParams()
-  const { currentUser } = useContext(UserContext)
+  const { currentUser, handleProductLike } = useContext(UserContext)
   const [product, setProduct] = useState(null)
 
   const onSendReview = (newProduct) => {
     setProduct({ ...newProduct })
+  }
+
+  const onProductLike = () => {
+    const wasLiked = handleProductLike(product)
+    if (wasLiked) {
+      const filteredLikes = product.likes.filter((e) => e !== currentUser._id)
+      setProduct({ ...product, likes: filteredLikes })
+    } else {
+      const addedLikes = [...product.likes, currentUser._id]
+      setProduct({ ...product, likes: addedLikes })
+    }
   }
 
   useEffect(() => {
@@ -19,7 +30,12 @@ export const ProductPage = () => {
   }, [id?.productId])
 
   return product && currentUser ? (
-    <Product product={product} id={id.productId} onSendReview={onSendReview} />
+    <Product
+      product={product}
+      id={id.productId}
+      onSendReview={onSendReview}
+      onProductLike={onProductLike}
+    />
   ) : (
     <div>Загрузка</div>
   )
