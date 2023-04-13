@@ -32,7 +32,6 @@
 
 .card__old-price {
   font-size: 12px;
-  position: absolute;
   top: 0;
   left: 0;
   font-weight: 600;
@@ -127,6 +126,7 @@
   text-decoration: none;
   display: inline-block;
   transition: background-color 0.3s;
+  cursor: pointer;
 }
 
 .btn_type_primary {

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ReactComponent as Like } from '../Card/like.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import { Logo } from '../Logo/Logo'
 import { Search } from '../Search/Search'
 import IconBasket from './basketMaterial/BasketMaterial'
 import { ReactComponent as FavouriteIcon } from './img/favorites.svg'
+import { ReactComponent as LoginIcon } from './img/login.svg'
 
 import s from './Header.module.css'
 import './index.css'
@@ -65,7 +65,7 @@ export const Header = () => {
                 className="btn"
                 onClick={() => setShowModal(true)}
               >
-                Login
+                <LoginIcon></LoginIcon>
               </Link>
             ) : (
               <Link to="/user">

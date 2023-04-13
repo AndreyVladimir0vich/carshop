@@ -168,9 +168,9 @@ export const Product = ({ onProductLike, onSendReview, product }) => {
               </p>
             </div>
           </div>
-          <button className="btn" onClick={() => navigate('/')}>
-            В каталог
-          </button>
+          <BaseButton color={'yellow'} onClick={() => navigate('/')}>
+            в каталог
+          </BaseButton>
         </div>
       </div>
 

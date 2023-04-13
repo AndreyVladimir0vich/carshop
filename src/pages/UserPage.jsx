@@ -88,13 +88,13 @@ const Userpage = () => {
           <BaseButton type="submit" color={'yellow'}>
             поменять имя и роль
           </BaseButton>
-          <BaseButton color={'yellow'} onClick={() => navigate('/')}>
-            в каталог
-          </BaseButton>
-          <BaseButton color={'yellow'} onClick={handleLogout}>
-            Выйти
-          </BaseButton>
         </Form>
+        <BaseButton color={'yellow'} onClick={() => navigate('/')}>
+          в каталог
+        </BaseButton>
+        <BaseButton color={'yellow'} onClick={handleLogout}>
+          Выйти
+        </BaseButton>
       </div>
     </>
   )

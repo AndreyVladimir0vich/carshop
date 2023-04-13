@@ -119,6 +119,7 @@ function App() {
     handleProductLike,
     setShowModal,
     setCurrentUser,
+    setIsAuthentificated,
   }
 
   useEffect(() => {
