@@ -11,9 +11,6 @@ export const ShoppingCard = () => {
       previousValue + currentItem.price * currentItem.count,
     0
   )
-  const EmptyTemplate = (
-    <div className="empty-text">У вас нет еще товаров в корзине</div>
-  )
 
   const handleRemoveItem = (id) => {
     setItemsShopingCart(itemsShopingCart.filter((item) => item.id !== id))
@@ -57,7 +54,7 @@ export const ShoppingCard = () => {
           decreaceCount={handleDecreaceCount}
         />
       ) : (
-        EmptyTemplate
+        <div className="empty-text">У вас нет еще товаров в корзине</div>
       )}
     </>
   )

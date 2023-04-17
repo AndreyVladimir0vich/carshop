@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { findLike, useDebounce } from './utils/utils'
 import { CatalogPage } from './pages/CatalogPage'
 import { ProductPage } from './pages/ProductPage'
@@ -37,9 +37,12 @@ function App() {
   const [favourites, setFavourites] = useState([])
   const [activeModal, setShowModal] = useState(false)
   const [isAuthentificated, setIsAuthentificated] = useState(false)
-  const [itemsShopingCart, setItemsShopingCart] = useState([])
+  const [itemsShopingCart, setItemsShopingCart] = useState(
+    JSON.parse(localStorage.getItem('cart')) || []
+  )
   const debounceValueInApp = useDebounce(searchQuery, 400)
   const navigate = useNavigate()
+  const isMounted = useRef(false)
 
   const filtredCards = (products, id) =>
     products.filter((prod) => prod.author._id === id)
@@ -83,16 +86,27 @@ function App() {
   }
 
   const handleAddItemsShopingCart = (product) => {
+    const calcDiscountPrice = Math.round(
+      product.price - (product.price * product.discount) / 100
+    )
     const items = {
       id: product._id,
       name: product.name,
-      price: product.price,
+      price: calcDiscountPrice,
       count: 1,
     }
     itemsShopingCart.some((e) => e.id === items.id)
       ? (items.count = +1)
       : setItemsShopingCart([...itemsShopingCart, items])
   }
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(itemsShopingCart)
+      localStorage.setItem('cart', json)
+    }
+    isMounted.current = true
+  }, [itemsShopingCart])
 
   const setSortCards = (sort) => {
     if (sort === 'Новые') {

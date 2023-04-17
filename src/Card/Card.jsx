@@ -63,7 +63,6 @@ export const Card = ({
       </Link>
 
       <span
-        // onClick={() => setParentCounter((state) => state + 1)}
         onClick={handleAddCartClick}
         className="card__card btn btn_type_primary"
       >
