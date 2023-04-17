@@ -1,0 +1,41 @@
+@import 'common';
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+
+  thead {
+    background-color: $main-color;
+    color: $background-text-color;
+    font-weight: lighter;
+  }
+
+  tr {
+    height: 35px;
+  }
+
+  tbody {
+    color: $background-text-color;
+    text-align: center;
+
+    td:nth-child(1) {
+      text-align: left;
+    }
+
+    tr:nth-child(even) {
+      background: $background-color;
+    }
+
+    button {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+    }
+
+    .count {
+      display: inline-block;
+      min-width: 30px;
+    }
+  }
+}

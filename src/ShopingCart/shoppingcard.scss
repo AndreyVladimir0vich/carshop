@@ -1,0 +1,20 @@
+@import 'common';
+
+.result-panel {
+  text-align: right;
+  .value {
+    font-weight: bold;
+    color: $background-text-color;
+  }
+  button {
+    margin-left: 12px;
+    background-color: $main-color;
+    color: $background-text-color;
+    padding: 5px;
+  }
+}
+
+.empty-text {
+  text-align: center;
+  color: gray;
+}

@@ -18,6 +18,16 @@ import { ResetPassword } from './Auth/ResetPassword'
 import { parseJwt } from './utils/parseJWT'
 import './App.css'
 import Userpage from './pages/Userpage'
+import ShopingCartPage from './pages/ShopingCartPage'
+
+const defaultItems = [
+  {
+    id: 1,
+    name: 'Яблоки красные',
+    price: 150,
+    count: 2,
+  },
+]
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -27,6 +37,7 @@ function App() {
   const [favourites, setFavourites] = useState([])
   const [activeModal, setShowModal] = useState(false)
   const [isAuthentificated, setIsAuthentificated] = useState(false)
+  const [itemsShopingCart, setItemsShopingCart] = useState([])
   const debounceValueInApp = useDebounce(searchQuery, 400)
   const navigate = useNavigate()
 
@@ -71,16 +82,17 @@ function App() {
     return isLiked
   }
 
-  // const handleUpdateUser = (userUpdate) => {
-  //   api.setUserInfo(userUpdate).then((newUser) => {
-  //     setCurrentUser(newUser)
-  //   })
-  // }
-
-  // const newProduct = {}
-  // const addCardinDB = async () => {
-  //   await api.addNewProduct(newProduct)
-  // }
+  const handleAddItemsShopingCart = (product) => {
+    const items = {
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      count: 1,
+    }
+    itemsShopingCart.some((e) => e.id === items.id)
+      ? (items.count = +1)
+      : setItemsShopingCart([...itemsShopingCart, items])
+  }
 
   const setSortCards = (sort) => {
     if (sort === 'Новые') {
@@ -111,6 +123,7 @@ function App() {
     favourites,
     activeModal,
     isAuthentificated,
+    itemsShopingCart,
     navigate,
     setFavourites,
     setSearchQuery,
@@ -120,6 +133,8 @@ function App() {
     setShowModal,
     setCurrentUser,
     setIsAuthentificated,
+    setItemsShopingCart,
+    handleAddItemsShopingCart,
   }
 
   useEffect(() => {
@@ -179,6 +194,7 @@ function App() {
               <Route path="faq" element={<FaqPage />}></Route>
               <Route path="user" element={<Userpage />}></Route>
               <Route path="favourites" element={<FavouritesPage />}></Route>
+              <Route path="shopingCart" element={<ShopingCartPage />}></Route>
               {authRoutes}
               <Route
                 path="login"

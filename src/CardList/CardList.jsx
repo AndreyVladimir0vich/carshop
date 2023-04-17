@@ -12,6 +12,7 @@ export const CardList = ({ cards }) => {
           <Card
             key={item._id}
             {...item}
+            id={item._id}
             product={item}
             handleProductLike={handleProductLike}
             setParentCounter={setParentCounter}

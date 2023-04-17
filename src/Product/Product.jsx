@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form'
 import { ReactComponent as BasketIcon } from './image/basket.svg'
 
 export const Product = ({ onProductLike, onSendReview, product }) => {
-  const { currentUser, setParentCounter, navigate, handleProductLike } =
+  const { currentUser, navigate, handleAddItemsShopingCart } =
     useContext(UserContext)
   const [rate, setRate] = useState(3)
   const [users, setUsers] = useState(3)
@@ -83,6 +83,10 @@ export const Product = ({ onProductLike, onSendReview, product }) => {
     setReviewsProduct(() => [...result.reviews])
   }
 
+  const handleAddCartClick = () => {
+    handleAddItemsShopingCart(product)
+  }
+
   return (
     <>
       <div>
@@ -131,13 +135,9 @@ export const Product = ({ onProductLike, onSendReview, product }) => {
             </span>
           )}
           <div className={s.btnWrap}>
-            <div className={s.left}>
-              <button className={s.minus}>-</button>
-              <span className={s.num}>0</span>
-              <button className={s.plus}>+</button>
-            </div>
             <span
-              onClick={() => setParentCounter((state) => state + 1)}
+              // onClick={() => setParentCounter((state) => state + 1)}
+              onClick={handleAddCartClick}
               className="card__card btn btn_type_primary"
             >
               В корзину

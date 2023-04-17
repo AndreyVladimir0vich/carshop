@@ -36,12 +36,32 @@
   justify-content: center;
   align-items: center;
 }
+.header__bubble_shopp {
+  background-color: #01a54e;
+  color: white;
+  font-size: 11px;
+  width: 19px;
+  height: 14px;
+  border-radius: 30px;
+  position: absolute;
+  left: 60%;
+  bottom: 63%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .header__bubble-link {
   text-decoration: none;
   position: relative;
 }
 .header__link {
   text-decoration: none;
+}
+
+.shopping__cart {
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
 }
 
 @media (max-width: 700px) {

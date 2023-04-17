@@ -9,20 +9,24 @@ import { UserContext } from '../context/userContext'
 import { findLike } from '../utils/utils'
 
 export const Card = ({
+  id,
   product,
   pictures,
   name,
   discount,
   price,
-  setParentCounter,
+
   handleProductLike,
 }) => {
-  const { currentUser } = useContext(UserContext)
+  const { currentUser, handleAddItemsShopingCart } = useContext(UserContext)
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
   const isLiked = findLike(product, currentUser)
 
   const handleLikeClick = () => {
     handleProductLike(product)
+  }
+  const handleAddCartClick = () => {
+    handleAddItemsShopingCart(product)
   }
 
   return (
@@ -59,7 +63,8 @@ export const Card = ({
       </Link>
 
       <span
-        onClick={() => setParentCounter((state) => state + 1)}
+        // onClick={() => setParentCounter((state) => state + 1)}
+        onClick={handleAddCartClick}
         className="card__card btn btn_type_primary"
       >
         В корзину

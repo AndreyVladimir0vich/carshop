@@ -6,6 +6,7 @@ import { Search } from '../Search/Search'
 import IconBasket from './basketMaterial/BasketMaterial'
 import { ReactComponent as FavouriteIcon } from './img/favorites.svg'
 import { ReactComponent as LoginIcon } from './img/login.svg'
+import { ReactComponent as ShoppingCart } from './img/shoppingcart.svg'
 
 import s from './Header.module.css'
 import './index.css'
@@ -18,6 +19,7 @@ export const Header = () => {
     favourites,
     setShowModal,
     isAuthentificated,
+    itemsShopingCart,
   } = useContext(UserContext)
   const [counter, setCounter] = useState(parentCounter)
 
@@ -27,11 +29,6 @@ export const Header = () => {
 
   const navigate = useNavigate()
 
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    navigate('/login')
-  }
-
   return (
     <div className="header" id="head">
       <div className="container">
@@ -40,15 +37,17 @@ export const Header = () => {
             <Logo />
             <Search setSearchQuery={setSearchQuery} />
           </div>
-          <div>
-            <IconBasket count={counter} />
-          </div>
-          {/* <Link className={s.favouritesLink} to="/favourites">
-            <FavouriteIcon />
-            {favourites.length !== 0 && (
-              <span className={s.iconBubble}>{favourites.length}</span>
+          <div className="header__bubble-link">
+            <ShoppingCart
+              className="shopping__cart"
+              onClick={() => navigate('/shopingCart')}
+            />
+            {itemsShopingCart.length !== 0 && (
+              <span className="header__bubble_shopp">
+                {itemsShopingCart.length}
+              </span>
             )}
-          </Link> */}
+          </div>
           <div>
             <Link to={'/favourites'} className="header__bubble-link">
               <FavouriteIcon />
