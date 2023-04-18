@@ -3,31 +3,26 @@ import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import { Logo } from '../Logo/Logo'
 import { Search } from '../Search/Search'
-import IconBasket from './basketMaterial/BasketMaterial'
 import { ReactComponent as FavouriteIcon } from './img/favorites.svg'
 import { ReactComponent as LoginIcon } from './img/login.svg'
 import { ReactComponent as ShoppingCart } from './img/shoppingcart.svg'
-
 import s from './Header.module.css'
 import './index.css'
+import { Modal } from '../Modal/Modal'
+import { FormAddProd } from '../FormAddProd/FormAddProd'
 
 export const Header = () => {
   const {
     currentUser,
-    parentCounter,
     setSearchQuery,
     favourites,
     setShowModal,
     isAuthentificated,
     itemsShopingCart,
   } = useContext(UserContext)
-  const [counter, setCounter] = useState(parentCounter)
-
-  useEffect(() => {
-    setCounter((st) => st + 1)
-  }, [parentCounter])
 
   const navigate = useNavigate()
+  const [isCreateModalActive, setCreateModal] = useState(false)
 
   return (
     <div className="header" id="head">
@@ -67,9 +62,28 @@ export const Header = () => {
                 <LoginIcon></LoginIcon>
               </Link>
             ) : (
-              <Link to="/user">
-                <img className={s.user__ava} src={currentUser.avatar}></img>
-              </Link>
+              <div>
+                <Link to="/user">
+                  <img className={s.user__ava} src={currentUser.avatar}></img>
+                </Link>
+
+                <div className="header_add_prod_button_wrapper">
+                  <button
+                    className="add_prod"
+                    onClick={() => setCreateModal(true)}
+                  >
+                    AddProd
+                  </button>
+                  {isCreateModalActive && (
+                    <Modal
+                      activeModal={isCreateModalActive}
+                      setShowModal={setCreateModal}
+                    >
+                      <FormAddProd setCreateModal={setCreateModal} />
+                    </Modal>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         </div>

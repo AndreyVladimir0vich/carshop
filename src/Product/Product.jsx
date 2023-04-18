@@ -12,13 +12,24 @@ import { BaseButton } from '../BaseButton/BaseButton'
 import { Form } from '../Form/Form'
 import { useForm } from 'react-hook-form'
 import { ReactComponent as BasketIcon } from './image/basket.svg'
+import { EditProductForm } from '../EditProductForm/EditProductForm'
+import { ModalEditProduct } from '../EditProductForm/ModalEditProduct'
+import { ModalDelete } from '../ModalDelete/ModalDelete'
 
-export const Product = ({ onProductLike, onSendReview, product }) => {
+export const Product = ({
+  id,
+  onUpdateProduct,
+  onProductLike,
+  onSendReview,
+  product,
+}) => {
   const { currentUser, navigate, handleAddItemsShopingCart } =
     useContext(UserContext)
   const [rate, setRate] = useState(3)
   const [users, setUsers] = useState(3)
   const [currentRating, setCurrentRating] = useState(0)
+  const [activeModal, setShowModal] = useState(false)
+  const [showModalEdit, setShowModalEdit] = useState(false)
   const [reviewsProduct, setReviewsProduct] = useState(
     product?.reviews.slice(0, 5) ?? []
   )
@@ -168,6 +179,41 @@ export const Product = ({ onProductLike, onSendReview, product }) => {
               </p>
             </div>
           </div>
+          <BaseButton
+            className={s.add_review_btn}
+            onClick={() => setShowModalEdit(true)}
+          >
+            Редактировать товар
+          </BaseButton>
+
+          <ModalEditProduct
+            activeModal={showModalEdit}
+            setShowModal={setShowModalEdit}
+          >
+            <EditProductForm
+              onUpdateProduct={onUpdateProduct}
+              product={product}
+              setShowModalEdit={setShowModalEdit}
+              id={id}
+            />
+          </ModalEditProduct>
+
+          <div className={s.btns_top}>
+            {/*Кнопка для удаления продукта и модальное окно */}
+
+            <ModalDelete
+              activeModal={activeModal}
+              setShowModal={setShowModal}
+              id={id}
+            ></ModalDelete>
+            <BaseButton
+              onClick={() => setShowModal(true)}
+              className={s.delete_button}
+            >
+              Удалить{' '}
+            </BaseButton>
+          </div>
+
           <BaseButton color={'yellow'} onClick={() => navigate('/')}>
             в каталог
           </BaseButton>
@@ -177,7 +223,7 @@ export const Product = ({ onProductLike, onSendReview, product }) => {
       <div className={s.box}>
         <h2 className={s.title}>Описание</h2>
         <div>{product.description}</div>
-        <h2 className={s.title}>Характеристики</h2>
+        {/* <h2 className={s.title}>Характеристики</h2>
         <div className={s.grid}>
           <div className={s.naming}>Вес</div>
           <div className={s.description}>1 шт 120-200 грамм</div>
@@ -200,7 +246,7 @@ export const Product = ({ onProductLike, onSendReview, product }) => {
             </p>
             <p>Следует учесть высокую калорийность продукта.</p>
           </div>
-        </div>
+        </div> */}
       </div>
       <div>
         <BaseButton onClick={() => setShowFormReview(true)}>

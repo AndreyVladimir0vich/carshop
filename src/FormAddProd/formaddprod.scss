@@ -1,0 +1,27 @@
+.form_add_checkboxes_container {
+  display: flex;
+  width: 112%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.auth__input_disc {
+  padding: 0 16px;
+  gap: 10px;
+  width: 90%;
+  height: 48px;
+  background: #ffffff;
+  border: 1px solid #cfd8dc;
+  border-radius: 12px;
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.add_good_close_icon {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+}
+.add_product_container {
+  padding-left: 10px;
+  padding-right: 10px;
+}

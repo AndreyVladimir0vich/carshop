@@ -27,8 +27,8 @@ class Api {
     this._headers = data.headers
     this._freshHeaders = data.freshHeaders
   }
-  getProductList() {
-    return fetch(`${this._baseUrl}/products`, {
+  getProductList(limit = 500) {
+    return fetch(`${this._baseUrl}/products?limit=${limit}`, {
       ...this._freshHeaders(),
     }).then((res) => onResponse(res))
   }
@@ -44,6 +44,14 @@ class Api {
       method: 'POST',
       ...this._freshHeaders(),
       body: JSON.stringify(newProduct),
+    }).then((res) => onResponse(res))
+  }
+
+  updateProduct(productId, body) {
+    return fetch(`${this._baseUrl}/products/${productId}`, {
+      ...this._freshHeaders(),
+      method: 'PATCH',
+      body: JSON.stringify(body),
     }).then((res) => onResponse(res))
   }
 
@@ -109,6 +117,13 @@ class Api {
       ...this._freshHeaders(),
       method: 'DELETE',
     }).then((res) => onResponse(res))
+  }
+
+  deleteProductById(productId) {
+    return fetch(`${this._baseUrl}/products/${productId}`, {
+      method: 'DELETE',
+      ...this._freshHeaders(),
+    })
   }
 }
 

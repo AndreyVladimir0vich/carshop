@@ -129,6 +129,7 @@ function App() {
     activeModal,
     isAuthentificated,
     itemsShopingCart,
+    setCards,
     navigate,
     setFavourites,
     setSearchQuery,
@@ -187,7 +188,6 @@ function App() {
         <Header />
         {isAuthentificated ? (
           <main className="content container">
-            {/* <button onClick={() => addCardinDB()}>add</button> */}
             <SearchInfo />
             <Routes>
               <Route path="/" element={<CatalogPage />}></Route>
