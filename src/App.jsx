@@ -20,15 +20,6 @@ import './App.css'
 import Userpage from './pages/Userpage'
 import ShopingCartPage from './pages/ShopingCartPage'
 
-const defaultItems = [
-  {
-    id: 1,
-    name: 'Яблоки красные',
-    price: 150,
-    count: 2,
-  },
-]
-
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [cards, setCards] = useState([])
