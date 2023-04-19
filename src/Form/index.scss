@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 0.5rem;
   max-width: 400px;
+  transition: 0.5s;
   &__input {
     padding: 6px;
     border-radius: 10px;

@@ -1,4 +1,4 @@
-import './modalDelete.css'
+import './style.css'
 import { api } from '../utils/api'
 import cn from 'classnames'
 import { useNavigate } from 'react-router-dom'
@@ -28,7 +28,7 @@ export const ModalDelete = ({ activeModal, children, setShowModal, id }) => {
     <>
       <div
         className={cn('modal', { ['active']: activeModal })}
-        onClick={() => setShowModal(false)}
+        // onClick={() => setShowModal(false)}
       >
         <div
           className={cn('delete_modal_content', { ['active']: activeModal })}

@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../context/userContext'
-import './formaddprod.scss'
+import './style.scss'
 
 export const FormAddProd = ({ setCreateModal }) => {
   const [discountIsChecked, setdiscountIsChecked] = useState(false)

@@ -13,7 +13,7 @@ import { Form } from '../Form/Form'
 import { useForm } from 'react-hook-form'
 import { ReactComponent as BasketIcon } from './image/basket.svg'
 import { EditProductForm } from '../EditProductForm/EditProductForm'
-import { ModalEditProduct } from '../EditProductForm/ModalEditProduct'
+import { Modal } from '../Modal/Modal'
 import { ModalDelete } from '../ModalDelete/ModalDelete'
 
 export const Product = ({
@@ -186,17 +186,14 @@ export const Product = ({
             Редактировать товар
           </BaseButton>
 
-          <ModalEditProduct
-            activeModal={showModalEdit}
-            setShowModal={setShowModalEdit}
-          >
+          <Modal activeModal={showModalEdit} setShowModal={setShowModalEdit}>
             <EditProductForm
               onUpdateProduct={onUpdateProduct}
               product={product}
               setShowModalEdit={setShowModalEdit}
               id={id}
             />
-          </ModalEditProduct>
+          </Modal>
 
           <div className={s.btns_top}>
             {/*Кнопка для удаления продукта и модальное окно */}

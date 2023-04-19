@@ -1,6 +1,5 @@
-import { EditProductBaseForm } from './EditProductBaseForm'
+import { Form } from '../Form/Form'
 import { useForm } from 'react-hook-form'
-import { BaseButton } from '../BaseButton/BaseButton'
 import { api } from '../utils/api'
 import { openNotification } from '../Notifiaction/Notification'
 import CloseIcon from '@mui/icons-material/Close'
@@ -35,7 +34,6 @@ export const EditProductForm = ({
   }
   return (
     <div className="add_product_container">
-      {/* Кнопка закрытия */}
       <div className="add_good_close_icon_wrapper">
         <span
           className="add_good_close_icon"
@@ -46,13 +44,13 @@ export const EditProductForm = ({
           <CloseIcon style={{ fontSize: '18px' }} />
         </span>
       </div>
-      {/* Форма */}
+
       <div>
-        <EditProductBaseForm
+        <Form
+          className="form_edit_container"
           title={'Редактировать товар'}
           submitForm={handleSubmit(updateProduct)}
         >
-          {/* Основные инпуты */}
           <div className="edit_input_wrapper">
             <span className="edit_input_title">Название</span>
             <input
@@ -109,12 +107,11 @@ export const EditProductForm = ({
               {...register('description')}
             />
           </div>
-          {/* Кнопка для отправки формы */}
 
-          <BaseButton className="edit_btn_submit" type="submit">
+          <button className="edit_btn_submit" type="submit">
             Отправить
-          </BaseButton>
-        </EditProductBaseForm>
+          </button>
+        </Form>
       </div>
     </div>
   )

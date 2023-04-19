@@ -6,6 +6,7 @@ import { Search } from '../Search/Search'
 import { ReactComponent as FavouriteIcon } from './img/favorites.svg'
 import { ReactComponent as LoginIcon } from './img/login.svg'
 import { ReactComponent as ShoppingCart } from './img/shoppingcart.svg'
+import { ReactComponent as AddProduct } from './img/addProd.svg'
 import s from './Header.module.css'
 import './index.css'
 import { Modal } from '../Modal/Modal'
@@ -51,6 +52,12 @@ export const Header = () => {
               )}
             </Link>
           </div>
+          <div>
+            <AddProduct
+              className="shopping__cart"
+              onClick={() => setCreateModal(true)}
+            ></AddProduct>
+          </div>
 
           <div className={s.userIcon}>
             {!isAuthentificated ? (
@@ -68,12 +75,6 @@ export const Header = () => {
                 </Link>
 
                 <div className="header_add_prod_button_wrapper">
-                  <button
-                    className="add_prod"
-                    onClick={() => setCreateModal(true)}
-                  >
-                    AddProd
-                  </button>
                   {isCreateModalActive && (
                     <Modal
                       activeModal={isCreateModalActive}
