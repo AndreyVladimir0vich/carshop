@@ -7,7 +7,12 @@ import { openNotification } from '../Notifiaction/Notification'
 import { UserContext } from '../context/userContext'
 import { BaseButton } from '../BaseButton/BaseButton'
 
-export const ModalDelete = ({ activeModal, children, setShowModal, id }) => {
+export const ModalDeleteProd = ({
+  activeModal,
+  children,
+  setShowModal,
+  id,
+}) => {
   const navigate = useNavigate()
 
   const { setCards } = useContext(UserContext)

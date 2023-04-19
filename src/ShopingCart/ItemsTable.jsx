@@ -17,7 +17,7 @@ export const ItemsTable = ({
           <th>Наименование товара</th>
           <th>Цена за шт</th>
           <th>Кол-во</th>
-          <th>Цена</th>
+          <th>Сумма</th>
           <th></th>
         </tr>
       </thead>

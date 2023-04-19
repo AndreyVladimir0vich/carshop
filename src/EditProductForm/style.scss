@@ -1,80 +1,49 @@
-.modal_edit {
-  position: fixed;
-  z-index: 20;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.5s;
-}
-.modal_content_edit {
-  padding: 2rem;
-  background: #ffffff;
-  border-radius: 20px;
-}
-
-.modal_edit.active {
-  opacity: 1;
-  pointer-events: all;
-}
-.modal_content.active {
-  transform: scale(1);
-  position: relative;
-  top: 80px;
-}
-
-.form_edit_inputs {
-  margin-bottom: 15px;
-}
-
-.edit_form_input {
-  padding: 0 16px;
-  gap: 10px;
-  width: 275px;
-  height: 43px;
-  background: #ffffff;
-  border: 1px solid #cfd8dc;
-  border-radius: 12px;
-  font-size: 15px;
-  margin-bottom: 10px;
-}
-.edit_input_wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 5px;
-}
-.edit_form_textarea {
-  height: 50px;
-  width: 300px;
-  font-size: 16px;
-  resize: none;
-}
-.edit_input_title {
-  font-size: 18px;
-}
-.edit_btn_submit {
-  padding: 14px 30px;
-  background-color: #ffe44d;
-  cursor: pointer;
-  border-radius: 55px;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-  color: #1a1a1a;
-  border: none;
-  width: 300px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-top: 10px;
+.auth {
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 388px;
+  }
+  &__input {
+    padding: 0 16px;
+    gap: 10px;
+    // width: 100%;
+    height: 48px;
+    background: #ffffff;
+    border: 1px solid #cfd8dc;
+    border-radius: 12px;
+    &:focus,
+    &:hover,
+    &:active {
+      border: 1px solid #ffe44d;
+      caret-color: #ffe44d;
+    }
+  }
+  &__info {
+    text-align: left;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #7b8e98;
+    margin: 0.75rem 0 1rem 0;
+    cursor: pointer;
+  }
+  &__link {
+    text-align: right;
+    cursor: pointer;
+  }
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  &__warning {
+    color: red;
+  }
+  &__back {
+    width: fit-content;
+  }
 }

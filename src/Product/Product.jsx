@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form'
 import { ReactComponent as BasketIcon } from './image/basket.svg'
 import { EditProductForm } from '../EditProductForm/EditProductForm'
 import { Modal } from '../Modal/Modal'
-import { ModalDelete } from '../ModalDelete/ModalDelete'
+import { ModalDeleteProd } from '../ModalDeleteProd/ModalDeleteProd'
 
 export const Product = ({
   id,
@@ -198,11 +198,11 @@ export const Product = ({
           <div className={s.btns_top}>
             {/*Кнопка для удаления продукта и модальное окно */}
 
-            <ModalDelete
+            <ModalDeleteProd
               activeModal={activeModal}
               setShowModal={setShowModal}
               id={id}
-            ></ModalDelete>
+            ></ModalDeleteProd>
             <BaseButton
               onClick={() => setShowModal(true)}
               className={s.delete_button}
