@@ -106,7 +106,7 @@ export const ResetPassword = ({ setShowModal }) => {
             Срок действия временного пароля 24 ч.
           </span>
           <div className="auth__actions">
-            <BaseButton type="submit" color={'yellow'}>
+            <BaseButton type="submit">
               <span>Отправить</span>
             </BaseButton>
           </div>

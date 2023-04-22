@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { ItemsTable } from './ItemsTable.jsx'
 import { UserContext } from '../context/userContext.js'
 import './shoppingcard.scss'
+import './itemstable.scss'
 
 export const ShoppingCard = () => {
   const { itemsShopingCart, setItemsShopingCart } = useContext(UserContext)

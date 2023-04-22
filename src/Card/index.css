@@ -5,6 +5,10 @@
   align-items: flex-start;
   padding: 10px;
   border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 2px 1px 3px #777;
+  -moz-box-shadow: 2px 1px 3px #777;
+  -webkit-box-shadow: 2px 1px 3px #777;
 }
 
 .card:hover {
@@ -131,7 +135,7 @@
 }
 
 .btn_type_primary {
-  background-color: #ffe44d;
+  background-color: #8f8f8f;
 }
 
 .btn_green {
@@ -139,8 +143,8 @@
 }
 
 .btn_type_primary:hover {
-  background-color: #ffaa0d;
-  color: #f44336;
+  background-color: #3db132;
+  color: #0e0d0d;
 }
 
 .tag {

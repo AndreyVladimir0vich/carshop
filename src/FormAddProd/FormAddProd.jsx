@@ -104,9 +104,7 @@ export const FormAddProd = ({ setCreateModal }) => {
             )}
           </div>
 
-          <BaseButton color={'yellow'} type="submit">
-            Отправить
-          </BaseButton>
+          <BaseButton type="submit">Отправить</BaseButton>
         </Form>
       </div>
     </div>

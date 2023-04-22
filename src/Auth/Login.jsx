@@ -74,10 +74,10 @@ export const Login = ({ setShowModal }) => {
           </span>
 
           <div className="auth__actions">
-            <BaseButton type="submit" color={'yellow'}>
+            <BaseButton type="submit">
               <span>Войти</span>
             </BaseButton>
-            <BaseButton onClick={handleClick} color={'white'}>
+            <BaseButton onClick={handleClick}>
               <span>Регистрация</span>
             </BaseButton>
           </div>

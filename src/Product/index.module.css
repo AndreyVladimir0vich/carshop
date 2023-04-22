@@ -26,6 +26,7 @@
 }
 .img {
   max-width: 500px;
+  border-radius: 10px;
 }
 .desc {
   max-width: 400px;
@@ -216,7 +217,7 @@
   font-size: 20px;
   line-height: 24px;
   color: #1a1a1a;
-  border-top: 1px solid #ffe44d;
+  border-top: 1px solid #01a54e;
 }
 
 .review__author {

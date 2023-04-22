@@ -14,11 +14,11 @@
   color: #000;
   font-size: 16px;
   line-height: 20px;
-  caret-color: #feba0c;
+  caret-color: #01a54e;
 }
 .search__input:focus {
   background: #ffffff;
-  border: 1px solid #fed700;
+  border: 1px solid #01a54e;
 }
 
 .search__input::placeholder {

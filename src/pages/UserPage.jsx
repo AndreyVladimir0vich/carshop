@@ -63,9 +63,7 @@ const Userpage = () => {
             className={s.userPage__inputs}
             placeholder="Аватар"
           />
-          <BaseButton color={'yellow'} type="submit">
-            поменять аватар
-          </BaseButton>
+          <BaseButton type="submit">поменять аватар</BaseButton>
         </Form>
       </div>
 
@@ -85,16 +83,10 @@ const Userpage = () => {
             placeholder="about"
           />
 
-          <BaseButton type="submit" color={'yellow'}>
-            поменять имя и роль
-          </BaseButton>
+          <BaseButton type="submit">поменять имя и роль</BaseButton>
         </Form>
-        <BaseButton color={'yellow'} onClick={() => navigate('/')}>
-          в каталог
-        </BaseButton>
-        <BaseButton color={'yellow'} onClick={handleLogout}>
-          Выйти
-        </BaseButton>
+        <BaseButton onClick={() => navigate('/')}>в каталог</BaseButton>
+        <BaseButton onClick={handleLogout}>Выйти</BaseButton>
       </div>
     </>
   )

@@ -70,10 +70,10 @@ export const Register = ({ setShowModal }) => {
           </span>
 
           <div className="auth__actions">
-            <BaseButton type="submit" color={'yellow'}>
+            <BaseButton type="submit">
               <span>Зарегистрироваться</span>
             </BaseButton>
-            <BaseButton onClick={handleClick} color={'white'}>
+            <BaseButton onClick={handleClick}>
               <span>Войти</span>
             </BaseButton>
           </div>

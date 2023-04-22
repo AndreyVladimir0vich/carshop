@@ -2,13 +2,14 @@
 
 .result-panel {
   text-align: right;
+  color: $background-text-color;
   .value {
     font-weight: bold;
     color: $background-text-color;
   }
   button {
     margin-left: 12px;
-    background-color: $main-color;
+    background-color: #3db132;
     color: $background-text-color;
     padding: 5px;
   }

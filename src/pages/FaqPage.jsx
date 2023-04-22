@@ -58,9 +58,7 @@ const FaqPage = () => {
   const { navigate } = useContext(UserContext)
   return (
     <>
-      <BaseButton color={'yellow'} onClick={() => navigate('/')}>
-        в каталог
-      </BaseButton>
+      <BaseButton onClick={() => navigate('/')}>в каталог</BaseButton>
       <h1>Часто спрашивают</h1>
       {dataFaq.map((element, index) => (
         <Accordion key={index} title={element.title}>

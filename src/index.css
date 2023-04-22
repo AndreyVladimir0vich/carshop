@@ -1,11 +1,12 @@
 :root {
-  height: 100%;
+  height: auto;
 }
 
 #root {
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
+  background-color: #8f8f8f;
 }
 
 body {
@@ -19,11 +20,23 @@ body {
 }
 
 .container {
+  min-height: 598px;
   max-width: 1024px;
   padding-left: 1rem;
   padding-right: 1rem;
   width: 95%;
   margin: 0 auto;
+  background-image: url(background.jpg);
+  border-radius: 10px;
+}
+
+.containerHederFooter {
+  max-width: 1024px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 95%;
+  margin: 0 auto;
+  background-color: #8f8f8f;
 }
 
 .content {

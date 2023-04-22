@@ -30,7 +30,7 @@ export const Header = () => {
 
   return (
     <div className="header" id="head">
-      <div className="container">
+      <div className="containerHederFooter">
         <div className="header__wrapper">
           <div className="header__left">
             <Logo />

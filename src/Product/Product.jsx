@@ -23,7 +23,7 @@ export const Product = ({
   onSendReview,
   product,
 }) => {
-  const { currentUser, navigate, handleAddItemsShopingCart } =
+  const { currentUser, navigate, handleAddItemsShopingCart, itemsShopingCart } =
     useContext(UserContext)
   const [rate, setRate] = useState(3)
   const [currentRating, setCurrentRating] = useState(0)
@@ -135,13 +135,23 @@ export const Product = ({
             </span>
           )}
           <div className={s.btnWrap}>
-            <span
-              // onClick={() => setParentCounter((state) => state + 1)}
-              onClick={handleAddCartClick}
-              className="card__card btn btn_type_primary"
-            >
-              В корзину
-            </span>
+            {itemsShopingCart.some((e) => e.id === product._id) && (
+              <span
+                onClick={() => navigate('/shopingCart')}
+                className="card__card btn btn_type_primary btn_green"
+              >
+                В корзине, перейти
+              </span>
+            )}
+
+            {!itemsShopingCart.some((e) => e.id === product._id) && (
+              <span
+                onClick={handleAddCartClick}
+                className="card__card btn btn_type_primary"
+              >
+                В корзину
+              </span>
+            )}
             <div className={s.left}>
               <button className={s.minus}>-</button>
               <span className={s.num}>0</span>
@@ -203,9 +213,7 @@ export const Product = ({
             </BaseButton>
           </div>
 
-          <BaseButton color={'yellow'} onClick={() => navigate('/')}>
-            в каталог
-          </BaseButton>
+          <BaseButton onClick={() => navigate('/')}>в каталог</BaseButton>
         </div>
       </div>
 

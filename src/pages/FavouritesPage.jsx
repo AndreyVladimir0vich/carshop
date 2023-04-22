@@ -9,9 +9,7 @@ const FavouritesPage = () => {
   const { favourites, navigate } = useContext(UserContext)
   return (
     <>
-      <BaseButton color={'yellow'} onClick={() => navigate('/')}>
-        в каталог
-      </BaseButton>
+      <BaseButton onClick={() => navigate('/')}>в каталог</BaseButton>
       <h1>Избранное</h1>
       {!!favourites.length ? (
         <CardList cards={favourites} />
