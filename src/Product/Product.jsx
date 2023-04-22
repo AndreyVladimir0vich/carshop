@@ -26,7 +26,6 @@ export const Product = ({
   const { currentUser, navigate, handleAddItemsShopingCart } =
     useContext(UserContext)
   const [rate, setRate] = useState(3)
-  const [users, setUsers] = useState(3)
   const [currentRating, setCurrentRating] = useState(0)
   const [activeModal, setShowModal] = useState(false)
   const [showModalEdit, setShowModalEdit] = useState(false)
@@ -76,16 +75,6 @@ export const Product = ({
     setRate(accum)
     setCurrentRating(accum)
   }, [product?.reviews])
-
-  useEffect(() => {
-    api.getUsers().then((data) => setUsers(data))
-  }, [])
-
-  const getUser = (id) => {
-    if (!users.length) return 'User'
-    const user = users.find((e) => e._id === id)
-    return user
-  }
 
   const textRegister = register('review', { required: 'Отзыв Обязателен' })
 
@@ -153,6 +142,11 @@ export const Product = ({
             >
               В корзину
             </span>
+            <div className={s.left}>
+              <button className={s.minus}>-</button>
+              <span className={s.num}>0</span>
+              <button className={s.plus}>+</button>
+            </div>
           </div>
           <button
             className={cn(s.favorite, { [s.favoriteActive]: isLikedProduct })}
@@ -196,8 +190,6 @@ export const Product = ({
           </Modal>
 
           <div className={s.btns_top}>
-            {/*Кнопка для удаления продукта и модальное окно */}
-
             <ModalDeleteProd
               activeModal={activeModal}
               setShowModal={setShowModal}
@@ -267,15 +259,12 @@ export const Product = ({
             <div key={r._id} className={s.review}>
               <div className={s.review__author}>
                 <div className={s.review__info}>
-                  <img
-                    src={getUser(r.author)?.avatar}
-                    className={s.review__avatar}
-                  />
-                  <span>{getUser(r.author)?.name ?? 'User'}</span>
+                  <img src={r.author.avatar} className={s.review__avatar} />
+                  <span>{r.author.name ?? 'User'}</span>
                   <span className={s.review__date}>
                     {new Date(r.created_at).toLocaleString()}
                   </span>
-                  {currentUser._id === r.author && (
+                  {currentUser._id === r.author._id && (
                     <BasketIcon
                       onClick={() => deleteReview(r._id)}
                       className={s.review__basket__icon}

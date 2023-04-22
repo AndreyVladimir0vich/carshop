@@ -133,6 +133,11 @@
 .btn_type_primary {
   background-color: #ffe44d;
 }
+
+.btn_green {
+  background-color: #3db132;
+}
+
 .btn_type_primary:hover {
   background-color: #ffaa0d;
   color: #f44336;

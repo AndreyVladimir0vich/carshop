@@ -18,7 +18,8 @@ export const Card = ({
 
   handleProductLike,
 }) => {
-  const { currentUser, handleAddItemsShopingCart } = useContext(UserContext)
+  const { currentUser, handleAddItemsShopingCart, itemsShopingCart, navigate } =
+    useContext(UserContext)
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
   const isLiked = findLike(product, currentUser)
 
@@ -62,12 +63,23 @@ export const Card = ({
         </div>
       </Link>
 
-      <span
-        onClick={handleAddCartClick}
-        className="card__card btn btn_type_primary"
-      >
-        В корзину
-      </span>
+      {itemsShopingCart.some((e) => e.id === product._id) && (
+        <span
+          onClick={() => navigate('/shopingCart')}
+          className="card__card btn btn_type_primary btn_green"
+        >
+          В корзине, перейти
+        </span>
+      )}
+
+      {!itemsShopingCart.some((e) => e.id === product._id) && (
+        <span
+          onClick={handleAddCartClick}
+          className="card__card btn btn_type_primary"
+        >
+          В корзину
+        </span>
+      )}
     </div>
   )
 }

@@ -24,6 +24,9 @@ export const Header = () => {
 
   const navigate = useNavigate()
   const [isCreateModalActive, setCreateModal] = useState(false)
+  const countArr = itemsShopingCart.map((item) => item.count)
+  let sum = 0
+  countArr.map((item) => (sum += item))
 
   return (
     <div className="header" id="head">
@@ -39,9 +42,7 @@ export const Header = () => {
               onClick={() => navigate('/shopingCart')}
             />
             {itemsShopingCart.length !== 0 && (
-              <span className="header__bubble_shopp">
-                {itemsShopingCart.length}
-              </span>
+              <span className="header__bubble_shopp">{sum}</span>
             )}
           </div>
           <div>
