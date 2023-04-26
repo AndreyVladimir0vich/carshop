@@ -60,11 +60,12 @@ function App() {
     )
   }, [isAuthentificated])
 
+  // добовление или удаление лайка
   const handleProductLike = (product) => {
     const isLiked = findLike(product, currentUser)
     api.changeLikeProductStatus(product._id, !isLiked).then((newCard) => {
-      const newCards = cards.map((c) => {
-        return c._id === newCard._id ? newCard : c
+      const newCards = cards.map((oldCards) => {
+        return oldCards._id === newCard._id ? newCard : oldCards
       })
       setCards(newCards)
       setFavourites(
@@ -76,6 +77,7 @@ function App() {
     return isLiked
   }
 
+  //создание нового обекта с каутером и добовление егр в корзину
   const handleAddItemsShopingCart = (product) => {
     const calcDiscountPrice = Math.round(
       product.price - (product.price * product.discount) / 100
@@ -86,11 +88,43 @@ function App() {
       price: calcDiscountPrice,
       count: 1,
     }
-    itemsShopingCart.some((e) => e.id === items.id)
-      ? (items.count = +1)
-      : setItemsShopingCart([...itemsShopingCart, items])
+    setItemsShopingCart([...itemsShopingCart, items])
   }
 
+  //удаление товара из корзины
+  const handleRemoveItem = (id) => {
+    setItemsShopingCart(itemsShopingCart.filter((item) => item.id !== id))
+  }
+
+  // +1 к каутеру
+  const handleIncreaseCount = (id) => {
+    setItemsShopingCart(
+      itemsShopingCart.map((item) => {
+        if (item.id === id) {
+          item.count++
+        }
+        return item
+      })
+    )
+  }
+
+  // -1 к каутеру или удаление товара из корзины если count < 2
+  const handleDecreaseCount = (id, count) => {
+    if (count < 2) {
+      handleRemoveItem(id)
+    } else {
+      setItemsShopingCart(
+        itemsShopingCart.map((item) => {
+          if (item.id === id) {
+            item.count--
+          }
+          return item
+        })
+      )
+    }
+  }
+
+  // следит за стейтом корзины и переписывает его в локальное хранилище
   useEffect(() => {
     if (isMounted.current) {
       const json = JSON.stringify(itemsShopingCart)
@@ -99,6 +133,7 @@ function App() {
     isMounted.current = true
   }, [itemsShopingCart])
 
+  // сортировочная
   const setSortCards = (sort) => {
     if (sort === 'Новые') {
       const newCards = cards.sort(
@@ -120,6 +155,7 @@ function App() {
     }
   }
 
+  // передача  в контекст
   const contextValue = {
     cards,
     currentUser,
@@ -141,10 +177,12 @@ function App() {
     setIsAuthentificated,
     setItemsShopingCart,
     handleAddItemsShopingCart,
+    handleIncreaseCount,
+    handleDecreaseCount,
   }
 
+  //авторизация токеном из локального хранилища
   useEffect(() => {
-    // const authPath = ['/reset-password', '/register']
     const token = localStorage.getItem('token')
     const uncodedToken = parseJwt(token)
     if (uncodedToken?._id) {
@@ -152,6 +190,7 @@ function App() {
     }
   }, [navigate])
 
+  //пути и модальные окна авторизации, регистрации, сброса пароля
   const authRoutes = (
     <>
       {' '}

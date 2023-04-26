@@ -22,7 +22,7 @@ const Userpage = () => {
       const newUser = await api.updateAvatar({ avatar: avatar })
 
       setCurrentUser({ ...newUser })
-      console.log('work1')
+
       openNotification('success', 'Успешно', 'Автар успешно изменен')
     } catch (error) {
       openNotification('error', 'error', 'Не удалось изменить данные')

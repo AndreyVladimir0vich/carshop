@@ -23,8 +23,14 @@ export const Product = ({
   onSendReview,
   product,
 }) => {
-  const { currentUser, navigate, handleAddItemsShopingCart, itemsShopingCart } =
-    useContext(UserContext)
+  const {
+    currentUser,
+    navigate,
+    handleAddItemsShopingCart,
+    itemsShopingCart,
+    handleIncreaseCount,
+    handleDecreaseCount,
+  } = useContext(UserContext)
   const [rate, setRate] = useState(3)
   const [currentRating, setCurrentRating] = useState(0)
   const [activeModal, setShowModal] = useState(false)
@@ -143,7 +149,6 @@ export const Product = ({
                 В корзине, перейти
               </span>
             )}
-
             {!itemsShopingCart.some((e) => e.id === product._id) && (
               <span
                 onClick={handleAddCartClick}
@@ -152,12 +157,28 @@ export const Product = ({
                 В корзину
               </span>
             )}
-            <div className={s.left}>
-              <button className={s.minus}>-</button>
-              <span className={s.num}>0</span>
-              <button className={s.plus}>+</button>
-            </div>
+            {/* добавление удаление количеста товара */}
+            {itemsShopingCart
+              .filter((item) => item.id === product._id)
+              .map((item) => (
+                <div key={item.id} className={s.left}>
+                  <button
+                    className={s.minus}
+                    onClick={() => handleDecreaseCount(item.id, item.count)}
+                  >
+                    -
+                  </button>
+                  <span className={s.num}>{item.count}</span>
+                  <button
+                    className={s.plus}
+                    onClick={() => handleIncreaseCount(item.id)}
+                  >
+                    +
+                  </button>
+                </div>
+              ))}
           </div>
+
           <button
             className={cn(s.favorite, { [s.favoriteActive]: isLikedProduct })}
             onClick={onLike}

@@ -5,7 +5,12 @@ import './shoppingcard.scss'
 import './itemstable.scss'
 
 export const ShoppingCard = () => {
-  const { itemsShopingCart, setItemsShopingCart } = useContext(UserContext)
+  const {
+    itemsShopingCart,
+    setItemsShopingCart,
+    handleIncreaseCount,
+    handleDecreaseCount,
+  } = useContext(UserContext)
 
   const result = itemsShopingCart.reduce(
     (previousValue, currentItem) =>
@@ -17,32 +22,6 @@ export const ShoppingCard = () => {
     setItemsShopingCart(itemsShopingCart.filter((item) => item.id !== id))
   }
 
-  const handleIncreaceCount = (id) => {
-    setItemsShopingCart(
-      itemsShopingCart.map((item) => {
-        if (item.id === id) {
-          item.count++
-        }
-        return item
-      })
-    )
-  }
-
-  const handleDecreaceCount = (id, count) => {
-    if (count < 2) {
-      handleRemoveItem(id)
-    } else {
-      setItemsShopingCart(
-        itemsShopingCart.map((item) => {
-          if (item.id === id) {
-            item.count--
-          }
-          return item
-        })
-      )
-    }
-  }
-
   return (
     <>
       <h1>Корзина</h1>
@@ -51,8 +30,8 @@ export const ShoppingCard = () => {
           result={result}
           items={itemsShopingCart}
           removeItem={handleRemoveItem}
-          increaceCount={handleIncreaceCount}
-          decreaceCount={handleDecreaceCount}
+          increaceCount={handleIncreaseCount}
+          decreaceCount={handleDecreaseCount}
         />
       ) : (
         <div className="empty-text">У вас нет еще товаров в корзине</div>

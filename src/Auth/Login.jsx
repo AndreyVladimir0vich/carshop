@@ -27,7 +27,7 @@ export const Login = ({ setShowModal }) => {
       localStorage.setItem('token', res.token)
       navigate('/')
     } catch (error) {
-      console.log()
+      console.log('error')
       alert('Неправильные логин пароль')
     }
   }
