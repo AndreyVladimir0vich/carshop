@@ -91,5 +91,3 @@ export const Userpage = () => {
     </>
   )
 }
-
-export default Userpage
