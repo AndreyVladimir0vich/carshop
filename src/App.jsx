@@ -17,7 +17,7 @@ import { Register } from './Auth/Register'
 import { ResetPassword } from './Auth/ResetPassword'
 import { parseJwt } from './utils/parseJWT'
 import './App.css'
-import Userpage from './pages/Userpage'
+import { Userpage } from './pages/Userpage'
 import ShopingCartPage from './pages/ShopingCartPage'
 
 function App() {

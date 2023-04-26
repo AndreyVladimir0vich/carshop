@@ -7,15 +7,11 @@ import { useForm } from 'react-hook-form'
 import { openNotification } from '../Notifiaction/Notification'
 import s from './Userpage.module.css'
 
-const Userpage = () => {
+export const Userpage = () => {
   const { currentUser, setCurrentUser, setIsAuthentificated, navigate } =
     useContext(UserContext)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: 'onSubmit' })
+  const { register, handleSubmit } = useForm({ mode: 'onSubmit' })
 
   const sendAvatar = async ({ avatar }) => {
     try {
@@ -54,7 +50,11 @@ const Userpage = () => {
         <h1>Мои данные</h1>
         <p>Ваш email: {currentUser?.email}</p>
 
-        <img className={s.user__ava} src={currentUser.avatar}></img>
+        <img
+          className={s.user__ava}
+          src={currentUser.avatar}
+          alt="Аватар пользователя"
+        ></img>
         <p>Ваш ID: {currentUser?._id}</p>
         <Form className={s.userpage} submitForm={handleSubmit(sendAvatar)}>
           <input
