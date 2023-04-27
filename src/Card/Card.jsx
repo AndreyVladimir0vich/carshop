@@ -9,14 +9,12 @@ import { UserContext } from '../context/userContext'
 import { findLike } from '../utils/utils'
 
 export const Card = ({
-  id,
   product,
   pictures,
   name,
   discount,
   price,
-
-  handleProductLike,
+  handleProdAddDelLike,
 }) => {
   const { currentUser, handleAddItemsShopingCart, itemsShopingCart, navigate } =
     useContext(UserContext)
@@ -24,7 +22,7 @@ export const Card = ({
   const isLiked = findLike(product, currentUser)
 
   const handleLikeClick = () => {
-    handleProductLike(product)
+    handleProdAddDelLike(product)
   }
   const handleAddCartClick = () => {
     handleAddItemsShopingCart(product)

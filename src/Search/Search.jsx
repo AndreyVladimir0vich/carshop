@@ -2,12 +2,12 @@ import { ReactComponent as SearchIcon } from './Search.svg'
 import { ReactComponent as CloseIcon } from './ic-close-input.svg'
 import './index.css'
 
-export const Search = ({ setSearchQuery }) => {
+export const Search = ({ setSearchRequest }) => {
   return (
     <form className="search">
       <input
         type="text"
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(e) => setSearchRequest(e.target.value)}
         className="search__input"
         placeholder="Поиск"
       />

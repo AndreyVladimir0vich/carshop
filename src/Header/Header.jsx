@@ -15,10 +15,10 @@ import { FormAddProd } from '../FormAddProd/FormAddProd'
 export const Header = () => {
   const {
     currentUser,
-    setSearchQuery,
+    setSearchRequest,
     favourites,
     setShowModal,
-    isAuthentificated,
+    isAuthentificatedUser,
     itemsShopingCart,
   } = useContext(UserContext)
 
@@ -34,7 +34,7 @@ export const Header = () => {
         <div className="header__wrapper">
           <div className="header__left">
             <Logo />
-            <Search setSearchQuery={setSearchQuery} />
+            <Search setSearchRequest={setSearchRequest} />
           </div>
           <div className="header__bubble-link">
             <ShoppingCart
@@ -61,7 +61,7 @@ export const Header = () => {
           </div>
 
           <div className={s.userIcon}>
-            {!isAuthentificated ? (
+            {!isAuthentificatedUser ? (
               <Link
                 to={'/login'}
                 className="btn"

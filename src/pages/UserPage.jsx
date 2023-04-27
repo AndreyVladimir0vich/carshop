@@ -8,7 +8,7 @@ import { openNotification } from '../Notifiaction/Notification'
 import s from './Userpage.module.css'
 
 export const Userpage = () => {
-  const { currentUser, setCurrentUser, setIsAuthentificated, navigate } =
+  const { currentUser, setCurrentUser, setIsAuthentificatedUser, navigate } =
     useContext(UserContext)
 
   const { register, handleSubmit } = useForm({ mode: 'onSubmit' })
@@ -40,7 +40,7 @@ export const Userpage = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token')
-    setIsAuthentificated(false)
+    setIsAuthentificatedUser(false)
     navigate('/login')
   }
 

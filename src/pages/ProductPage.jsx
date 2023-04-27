@@ -5,8 +5,8 @@ import { api } from '../utils/api'
 import { UserContext } from '../context/userContext'
 
 export const ProductPage = () => {
-  const id = useParams()
-  const { currentUser, handleProductLike, setCards, cards } =
+  const params = useParams()
+  const { currentUser, handleProdAddDelLike, setCards, cards } =
     useContext(UserContext)
   const [product, setProduct] = useState(null)
 
@@ -15,7 +15,7 @@ export const ProductPage = () => {
   }
 
   const onProductLike = () => {
-    const wasLiked = handleProductLike(product)
+    const wasLiked = handleProdAddDelLike(product)
     if (wasLiked) {
       const filteredLikes = product.likes.filter((e) => e !== currentUser._id)
       setProduct({ ...product, likes: filteredLikes })
@@ -36,14 +36,14 @@ export const ProductPage = () => {
   }
 
   useEffect(() => {
-    if (!id?.productId) return
-    api.getProductById(id?.productId).then((data) => setProduct(data))
-  }, [id?.productId])
+    if (!params?.productId) return
+    api.getProductById(params?.productId).then((data) => setProduct(data))
+  }, [params?.productId])
 
   return product && currentUser ? (
     <Product
       product={product}
-      id={id.productId}
+      id={params.productId}
       onSendReview={onSendReview}
       onProductLike={onProductLike}
       onUpdateProduct={onUpdateProduct}

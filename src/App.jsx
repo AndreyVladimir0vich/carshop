@@ -19,49 +19,56 @@ import { parseJwt } from './utils/parseJWT'
 import './App.css'
 import { Userpage } from './pages/Userpage'
 import ShopingCartPage from './pages/ShopingCartPage'
+import { useSelector } from 'react-redux'
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchRequest, setSearchRequest] = useState('')
   const [cards, setCards] = useState([])
   const [currentUser, setCurrentUser] = useState({})
-  const [parentCounter, setParentCounter] = useState(0)
   const [favourites, setFavourites] = useState([])
   const [activeModal, setShowModal] = useState(false)
-  const [isAuthentificated, setIsAuthentificated] = useState(false)
+  const [isAuthentificatedUser, setIsAuthentificatedUser] = useState(false)
   const [itemsShopingCart, setItemsShopingCart] = useState(
     JSON.parse(localStorage.getItem('cart')) || []
   )
-  const debounceValueInApp = useDebounce(searchQuery, 400)
-  const navigate = useNavigate()
+  const debounceValueInApp = useDebounce(searchRequest, 400)
+  const navigate = useNavigate((s) => s)
   const isMounted = useRef(false)
+  const store = useSelector((s) => s)
+  console.log(store)
 
-  const filtredCards = (products, id) =>
+  const filtredUserCards = (products, id) =>
     products.filter((prod) => prod.author._id === id)
 
-  const handleSearch = (search) => {
+  const handleSearchQuery = (search) => {
     api
       .searchProducts(search)
-      .then((data) => setCards(filtredCards(data, currentUser._id))) //(data) => setCards([...data])||filtredCards(data, currentUser._id)
+      .then((data) => setCards(filtredUserCards(data, currentUser._id))) //(data) => setCards([...data])||filtredUserCards(data, currentUser._id)
   }
 
+  //накопитель для уменьшения количиства запросов на сервер
   useEffect(() => {
-    handleSearch(debounceValueInApp)
+    handleSearchQuery(debounceValueInApp)
   }, [debounceValueInApp])
 
+  //запрос с сервера информации о пользователе и о продуктах, фильтрация продуктов пользователя, фильтрация по лайкам пользователя
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getProductList()]).then(
       ([userData, productData]) => {
         setCurrentUser(userData)
-        const filteredData = filtredCards(productData.products, userData._id)
+        const filteredData = filtredUserCards(
+          productData.products,
+          userData._id
+        )
         setCards(filteredData) //productData.products
         const favouritesCard = filteredData.filter((e) => findLike(e, userData))
         setFavourites(favouritesCard)
       }
     )
-  }, [isAuthentificated])
+  }, [])
 
   // добовление или удаление лайка
-  const handleProductLike = (product) => {
+  const handleProdAddDelLike = (product) => {
     const isLiked = findLike(product, currentUser)
     api.changeLikeProductStatus(product._id, !isLiked).then((newCard) => {
       const newCards = cards.map((oldCards) => {
@@ -159,22 +166,20 @@ function App() {
   const contextValue = {
     cards,
     currentUser,
-    searchQuery,
-    parentCounter,
+    searchRequest,
     favourites,
     activeModal,
-    isAuthentificated,
+    isAuthentificatedUser,
     itemsShopingCart,
     setCards,
     navigate,
     setFavourites,
-    setSearchQuery,
-    setParentCounter,
+    setSearchRequest,
     setSortCards,
-    handleProductLike,
+    handleProdAddDelLike,
     setShowModal,
     setCurrentUser,
-    setIsAuthentificated,
+    setIsAuthentificatedUser,
     setItemsShopingCart,
     handleAddItemsShopingCart,
     handleIncreaseCount,
@@ -186,7 +191,7 @@ function App() {
     const token = localStorage.getItem('token')
     const uncodedToken = parseJwt(token)
     if (uncodedToken?._id) {
-      setIsAuthentificated(true)
+      setIsAuthentificatedUser(true)
     }
   }, [navigate])
 
@@ -225,7 +230,7 @@ function App() {
     <>
       <UserContext.Provider value={contextValue}>
         <Header />
-        {isAuthentificated ? (
+        {isAuthentificatedUser ? (
           <main className="content container">
             <SearchInfo />
             <Routes>

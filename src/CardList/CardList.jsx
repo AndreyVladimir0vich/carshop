@@ -4,7 +4,7 @@ import { UserContext } from '../context/userContext'
 import './index.css'
 
 export const CardList = ({ cards }) => {
-  const { handleProductLike, setParentCounter } = useContext(UserContext)
+  const { handleProdAddDelLike } = useContext(UserContext)
   return (
     <div className="cards">
       {cards.map((item) => {
@@ -14,8 +14,7 @@ export const CardList = ({ cards }) => {
             {...item}
             id={item._id}
             product={item}
-            handleProductLike={handleProductLike}
-            setParentCounter={setParentCounter}
+            handleProdAddDelLike={handleProdAddDelLike}
           />
         )
       })}

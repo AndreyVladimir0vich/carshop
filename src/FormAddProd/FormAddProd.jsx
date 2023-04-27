@@ -66,7 +66,7 @@ export const FormAddProd = ({ setCreateModal }) => {
             type="text"
             className="auth__input"
             placeholder="Описание"
-            {...register('description')}
+            {...register('description', { required: true })}
           />
           <input
             type="number"

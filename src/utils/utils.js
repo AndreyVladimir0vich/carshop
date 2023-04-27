@@ -7,16 +7,16 @@ export const getIssues = (numb) => {
   if (tmp > 4 || !numb) return ' товаров'
 }
 
-export const useDebounce = (searchQuery, delay) => {
-  const [debounceValue, setDebounceValue] = useState(searchQuery)
+export const useDebounce = (searchRequest, delay) => {
+  const [debounceValue, setDebounceValue] = useState(searchRequest)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setDebounceValue(searchQuery)
+      setDebounceValue(searchRequest)
     }, delay)
 
     return () => clearTimeout(timeout)
-  }, [searchQuery, delay])
+  }, [searchRequest, delay])
   return debounceValue
 }
 
