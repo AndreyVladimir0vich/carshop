@@ -1,41 +1,24 @@
 import { useContext } from 'react'
 import { UserContext } from '../context/userContext'
 import { BaseButton } from '../BaseButton/BaseButton'
-import { api } from '../utils/api'
 import { Form } from '../Form/Form'
 import { useForm } from 'react-hook-form'
-import { openNotification } from '../Notifiaction/Notification'
 import s from './Userpage.module.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { userUp } from '../storageRTK/userSlice'
 
 export const Userpage = () => {
-  const { currentUser, setCurrentUser, setIsAuthentificatedUser, navigate } =
-    useContext(UserContext)
-
+  const { setIsAuthentificatedUser, navigate } = useContext(UserContext)
+  const actualUser = useSelector((slice) => slice.user.data)
   const { register, handleSubmit } = useForm({ mode: 'onSubmit' })
+  const dispatch = useDispatch()
 
   const sendAvatar = async ({ avatar }) => {
-    try {
-      const newUser = await api.updateAvatar({ avatar: avatar })
-
-      setCurrentUser({ ...newUser })
-
-      openNotification('success', 'Успешно', 'Автар успешно изменен')
-    } catch (error) {
-      openNotification('error', 'error', 'Не удалось изменить данные')
-    }
+    dispatch(userUp({ avatar: avatar }))
   }
 
   const sendProfileData = async (data) => {
-    try {
-      const newUser = await api.updateUserInfo({
-        name: data.name,
-        about: data.about,
-      })
-      setCurrentUser({ ...newUser })
-      openNotification('success', 'Успешно', 'Данные успешно изменены')
-    } catch (error) {
-      openNotification('error', 'error', 'Не удалось изменить данные')
-    }
+    dispatch(userUp({ name: data.name, about: data.about }))
   }
 
   const handleLogout = () => {
@@ -48,18 +31,18 @@ export const Userpage = () => {
     <>
       <div className={s.userpage}>
         <h1>Мои данные</h1>
-        <p>Ваш email: {currentUser?.email}</p>
+        <p>Ваш email: {actualUser?.email}</p>
 
         <img
           className={s.user__ava}
-          src={currentUser.avatar}
+          src={actualUser.avatar}
           alt="Аватар пользователя"
         ></img>
-        <p>Ваш ID: {currentUser?._id}</p>
+        <p>Ваш ID: {actualUser?._id}</p>
         <Form className={s.userpage} submitForm={handleSubmit(sendAvatar)}>
           <input
             {...register('avatar')}
-            defaultValue={currentUser?.avatar}
+            defaultValue={actualUser?.avatar}
             className={s.userPage__inputs}
             placeholder="Аватар"
           />
@@ -71,14 +54,14 @@ export const Userpage = () => {
         <Form className={s.userpage} submitForm={handleSubmit(sendProfileData)}>
           <input
             {...register('name')}
-            defaultValue={currentUser.name}
+            defaultValue={actualUser.name}
             className={s.userPage__inputs}
             type="text"
             placeholder="name"
           />
           <input
             className={s.userPage__inputs}
-            defaultValue={currentUser.about}
+            defaultValue={actualUser.about}
             {...register('about')}
             placeholder="about"
           />

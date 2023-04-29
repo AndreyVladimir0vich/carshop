@@ -11,17 +11,17 @@ import s from './Header.module.css'
 import './index.css'
 import { Modal } from '../Modal/Modal'
 import { FormAddProd } from '../FormAddProd/FormAddProd'
+import { useSelector } from 'react-redux'
 
 export const Header = () => {
   const {
-    currentUser,
     setSearchRequest,
     favourites,
     setShowModal,
     isAuthentificatedUser,
     itemsShopingCart,
   } = useContext(UserContext)
-
+  const actualUser = useSelector((slice) => slice.user.data)
   const navigate = useNavigate()
   const [isCreateModalActive, setCreateModal] = useState(false)
   const countArr = itemsShopingCart.map((item) => item.count)
@@ -72,7 +72,7 @@ export const Header = () => {
             ) : (
               <div>
                 <Link to="/user">
-                  <img className={s.user__ava} src={currentUser.avatar}></img>
+                  <img className={s.user__ava} src={actualUser.avatar}></img>
                 </Link>
 
                 <div className="header_add_prod_button_wrapper">

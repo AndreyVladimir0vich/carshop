@@ -15,6 +15,7 @@ import { ReactComponent as BasketIcon } from './image/basket.svg'
 import { EditProductForm } from '../EditProductForm/EditProductForm'
 import { Modal } from '../Modal/Modal'
 import { ModalDeleteProd } from '../ModalDeleteProd/ModalDeleteProd'
+import { useSelector } from 'react-redux'
 
 export const Product = ({
   id,
@@ -24,13 +25,13 @@ export const Product = ({
   product,
 }) => {
   const {
-    currentUser,
     navigate,
     handleAddItemsShopingCart,
     itemsShopingCart,
     handleIncreaseCount,
     handleDecreaseCount,
   } = useContext(UserContext)
+  const actualUser = useSelector((slice) => slice.user.data)
   const [rate, setRate] = useState(3)
   const [currentRating, setCurrentRating] = useState(0)
   const [activeModal, setShowModal] = useState(false)
@@ -61,7 +62,7 @@ export const Product = ({
   }
 
   useEffect(() => {
-    const isLiked = product?.likes?.some((el) => el === currentUser._id)
+    const isLiked = product?.likes?.some((el) => el === actualUser._id)
     setIsLikedProduct(isLiked)
   }, [product.likes])
 
@@ -293,7 +294,7 @@ export const Product = ({
                   <span className={s.review__date}>
                     {new Date(r.created_at).toLocaleString()}
                   </span>
-                  {currentUser._id === r.author._id && (
+                  {actualUser._id === r.author._id && (
                     <BasketIcon
                       onClick={() => deleteReview(r._id)}
                       className={s.review__basket__icon}

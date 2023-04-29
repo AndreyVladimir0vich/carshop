@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../context/userContext'
 import { findLike } from '../utils/utils'
+import { useSelector } from 'react-redux'
 
 export const Card = ({
   product,
@@ -16,10 +17,11 @@ export const Card = ({
   price,
   handleProdAddDelLike,
 }) => {
-  const { currentUser, handleAddItemsShopingCart, itemsShopingCart, navigate } =
+  const { handleAddItemsShopingCart, itemsShopingCart, navigate } =
     useContext(UserContext)
+  const actualUser = useSelector((slice) => slice.user.data)
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
-  const isLiked = findLike(product, currentUser)
+  const isLiked = findLike(product, actualUser)
 
   const handleLikeClick = () => {
     handleProdAddDelLike(product)

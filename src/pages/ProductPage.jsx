@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom'
 import { Product } from '../Product/Product'
 import { api } from '../utils/api'
 import { UserContext } from '../context/userContext'
+import { useSelector } from 'react-redux'
 
 export const ProductPage = () => {
   const params = useParams()
-  const { currentUser, handleProdAddDelLike, setCards, cards } =
-    useContext(UserContext)
+  const { handleProdAddDelLike, setCards, cards } = useContext(UserContext)
+  const actualUser = useSelector((slice) => slice.user.data)
   const [product, setProduct] = useState(null)
-
   const onSendReview = (newProduct) => {
     setProduct({ ...newProduct })
   }
@@ -17,10 +17,10 @@ export const ProductPage = () => {
   const onProductLike = () => {
     const wasLiked = handleProdAddDelLike(product)
     if (wasLiked) {
-      const filteredLikes = product.likes.filter((e) => e !== currentUser._id)
+      const filteredLikes = product.likes.filter((e) => e !== actualUser._id)
       setProduct({ ...product, likes: filteredLikes })
     } else {
-      const addedLikes = [...product.likes, currentUser._id]
+      const addedLikes = [...product.likes, actualUser._id]
       setProduct({ ...product, likes: addedLikes })
     }
   }
@@ -40,7 +40,7 @@ export const ProductPage = () => {
     api.getProductById(params?.productId).then((data) => setProduct(data))
   }, [params?.productId])
 
-  return product && currentUser ? (
+  return product && actualUser ? (
     <Product
       product={product}
       id={params.productId}

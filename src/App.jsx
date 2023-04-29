@@ -19,12 +19,12 @@ import { parseJwt } from './utils/parseJWT'
 import './App.css'
 import { Userpage } from './pages/Userpage'
 import ShopingCartPage from './pages/ShopingCartPage'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { userFetch } from './storageRTK/userSlice'
 
 function App() {
   const [searchRequest, setSearchRequest] = useState('')
   const [cards, setCards] = useState([])
-  const [currentUser, setCurrentUser] = useState({})
   const [favourites, setFavourites] = useState([])
   const [activeModal, setShowModal] = useState(false)
   const [isAuthentificatedUser, setIsAuthentificatedUser] = useState(false)
@@ -34,8 +34,8 @@ function App() {
   const debounceValueInApp = useDebounce(searchRequest, 400)
   const navigate = useNavigate((s) => s)
   const isMounted = useRef(false)
-  const store = useSelector((s) => s)
-  console.log(store)
+  const actualUser = useSelector((slice) => slice.user.data)
+  const dispatch = useDispatch()
 
   const filtredUserCards = (products, id) =>
     products.filter((prod) => prod.author._id === id)
@@ -43,7 +43,7 @@ function App() {
   const handleSearchQuery = (search) => {
     api
       .searchProducts(search)
-      .then((data) => setCards(filtredUserCards(data, currentUser._id))) //(data) => setCards([...data])||filtredUserCards(data, currentUser._id)
+      .then((data) => setCards(filtredUserCards(data, actualUser._id))) //(data) => setCards([...data])||filtredUserCards(data, actualUser._id)
   }
 
   //накопитель для уменьшения количиства запросов на сервер
@@ -51,25 +51,34 @@ function App() {
     handleSearchQuery(debounceValueInApp)
   }, [debounceValueInApp])
 
-  //запрос с сервера информации о пользователе и о продуктах, фильтрация продуктов пользователя, фильтрация по лайкам пользователя
+  //запрос с сервера информации о продуктах, фильтрация продуктов пользователя, лайки пользователя
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getProductList()]).then(
-      ([userData, productData]) => {
-        setCurrentUser(userData)
-        const filteredData = filtredUserCards(
-          productData.products,
-          userData._id
-        )
-        setCards(filteredData) //productData.products
-        const favouritesCard = filteredData.filter((e) => findLike(e, userData))
-        setFavourites(favouritesCard)
-      }
-    )
-  }, [])
+    if (!isAuthentificatedUser) {
+      return
+    }
+    Promise.all([api.getProductList()]).then(([productData]) => {
+      const filteredData = filtredUserCards(
+        productData.products,
+        actualUser._id
+      )
+      setCards(filteredData) //productData.products
+      const favouritesCard = filteredData.filter((e) => findLike(e, actualUser))
+      setFavourites(favouritesCard)
+    })
+  }, [isAuthentificatedUser, actualUser])
+
+  //диспач информации о пользователе
+  useEffect(() => {
+    if (!isAuthentificatedUser) {
+      return
+    }
+
+    dispatch(userFetch())
+  }, [dispatch, isAuthentificatedUser])
 
   // добовление или удаление лайка
   const handleProdAddDelLike = (product) => {
-    const isLiked = findLike(product, currentUser)
+    const isLiked = findLike(product, actualUser)
     api.changeLikeProductStatus(product._id, !isLiked).then((newCard) => {
       const newCards = cards.map((oldCards) => {
         return oldCards._id === newCard._id ? newCard : oldCards
@@ -165,7 +174,6 @@ function App() {
   // передача  в контекст
   const contextValue = {
     cards,
-    currentUser,
     searchRequest,
     favourites,
     activeModal,
@@ -178,7 +186,6 @@ function App() {
     setSortCards,
     handleProdAddDelLike,
     setShowModal,
-    setCurrentUser,
     setIsAuthentificatedUser,
     setItemsShopingCart,
     handleAddItemsShopingCart,

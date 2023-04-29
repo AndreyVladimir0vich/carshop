@@ -20,5 +20,5 @@ export const useDebounce = (searchRequest, delay) => {
   return debounceValue
 }
 
-export const findLike = (product, currentUser) =>
-  product?.likes?.some((el) => el === currentUser._id)
+export const findLike = (product, actualUser) =>
+  product?.likes?.some((el) => el === actualUser._id)
