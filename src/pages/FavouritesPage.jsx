@@ -4,9 +4,11 @@ import { CardList } from '../CardList/CardList'
 import { UserContext } from '../context/userContext'
 import s from './Page404.module.css'
 import { BaseButton } from '../BaseButton/BaseButton'
+import { useSelector } from 'react-redux'
 
 const FavouritesPage = () => {
-  const { favourites, navigate } = useContext(UserContext)
+  const { navigate } = useContext(UserContext)
+  const { favourites } = useSelector((state) => state.products)
   return (
     <>
       <BaseButton onClick={() => navigate('/')}>в каталог</BaseButton>

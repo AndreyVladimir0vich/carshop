@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import { Logo } from '../Logo/Logo'
@@ -16,11 +16,11 @@ import { useSelector } from 'react-redux'
 export const Header = () => {
   const {
     setSearchRequest,
-    favourites,
     setShowModal,
     isAuthentificatedUser,
     itemsShopingCart,
   } = useContext(UserContext)
+  const { favourites } = useSelector((state) => state.products)
   const actualUser = useSelector((slice) => slice.user.data)
   const navigate = useNavigate()
   const [isCreateModalActive, setCreateModal] = useState(false)

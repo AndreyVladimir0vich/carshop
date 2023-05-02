@@ -3,19 +3,23 @@ import { useParams } from 'react-router-dom'
 import { Product } from '../Product/Product'
 import { api } from '../utils/api'
 import { UserContext } from '../context/userContext'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { findLike } from '../utils/utils'
+import { fetchProdLikeChange } from '../storageRTK/CarProdSlice'
 
 export const ProductPage = () => {
   const params = useParams()
-  const { handleProdAddDelLike, setCards, cards } = useContext(UserContext)
+  const { setCards, cards } = useContext(UserContext)
   const actualUser = useSelector((slice) => slice.user.data)
   const [product, setProduct] = useState(null)
   const onSendReview = (newProduct) => {
     setProduct({ ...newProduct })
   }
+  const dispatch = useDispatch()
 
   const onProductLike = () => {
-    const wasLiked = handleProdAddDelLike(product)
+    const wasLiked = findLike(product, actualUser)
+    dispatch(fetchProdLikeChange(product))
     if (wasLiked) {
       const filteredLikes = product.likes.filter((e) => e !== actualUser._id)
       setProduct({ ...product, likes: filteredLikes })

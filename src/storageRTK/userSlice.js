@@ -39,6 +39,10 @@ export const userUp = createAsyncThunk(
   }
 )
 
+const isError = (action) => {
+  return action.type.endsWith('rejected')
+}
+
 const initialState = {
   data: {},
   loading: false,
@@ -61,9 +65,10 @@ const userSlice = createSlice({
       state.data = action.payload
       state.loading = false
     })
-    builder.addCase(userUp.rejected, (state, action) => {
+    builder.addMatcher(isError, (state, action) => {
       state.error = action.payload
       state.loading = false
+      openNotification('error', 'error', 'ошибка загрузки')
     })
   },
 })

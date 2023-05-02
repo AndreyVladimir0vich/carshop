@@ -1,4 +1,3 @@
-import { ReactComponent as Like } from './like.svg'
 import { ReactComponent as Save } from './save.svg'
 import './index.css'
 import s from './index.module.css'
@@ -7,24 +6,19 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../context/userContext'
 import { findLike } from '../utils/utils'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProdLikeChange } from '../storageRTK/CarProdSlice'
 
-export const Card = ({
-  product,
-  pictures,
-  name,
-  discount,
-  price,
-  handleProdAddDelLike,
-}) => {
+export const Card = ({ product, pictures, name, discount, price }) => {
   const { handleAddItemsShopingCart, itemsShopingCart, navigate } =
     useContext(UserContext)
   const actualUser = useSelector((slice) => slice.user.data)
   const calcDiscountPrice = Math.round(price - (price * discount) / 100)
   const isLiked = findLike(product, actualUser)
+  const dispatch = useDispatch()
 
   const handleLikeClick = () => {
-    handleProdAddDelLike(product)
+    dispatch(fetchProdLikeChange(product))
   }
   const handleAddCartClick = () => {
     handleAddItemsShopingCart(product)

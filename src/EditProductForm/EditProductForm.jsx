@@ -108,7 +108,7 @@ export const EditProductForm = ({
           </div>
 
           <div className="auth__actions">
-            <BaseButton type="submit" color={'yellow'}>
+            <BaseButton type="submit">
               <span>Отправить</span>
             </BaseButton>
           </div>

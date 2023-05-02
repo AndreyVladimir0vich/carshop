@@ -2,6 +2,7 @@ import React from 'react'
 import './itemstable.scss'
 import './shoppingcard.scss'
 import { BaseButton } from '../BaseButton/BaseButton'
+import { Link } from 'react-router-dom'
 
 export const ItemsTable = ({
   result,
@@ -14,6 +15,7 @@ export const ItemsTable = ({
     <table className="price-table">
       <thead>
         <tr>
+          <th>Изображение</th>
           <th>Наименование товара</th>
           <th>Цена за шт</th>
           <th>Кол-во</th>
@@ -24,6 +26,15 @@ export const ItemsTable = ({
       <tbody>
         {items.map((item) => (
           <tr key={item.id}>
+            <td>
+              <Link to={`/product/${item.id}`}>
+                <img
+                  className="prod__ava"
+                  src={item.pictures}
+                  alt="Изображение товара"
+                />
+              </Link>
+            </td>
             <td>{item.name}</td>
             <td>{item.price}</td>
             <td>

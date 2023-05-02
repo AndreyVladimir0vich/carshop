@@ -1,6 +1,6 @@
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-import { findLike, useDebounce } from './utils/utils'
+import { useDebounce } from './utils/utils'
 import { CatalogPage } from './pages/CatalogPage'
 import { ProductPage } from './pages/ProductPage'
 import { UserContext } from './context/userContext'
@@ -21,11 +21,11 @@ import { Userpage } from './pages/Userpage'
 import ShopingCartPage from './pages/ShopingCartPage'
 import { useDispatch, useSelector } from 'react-redux'
 import { userFetch } from './storageRTK/userSlice'
+import { productFetch } from './storageRTK/CarProdSlice'
 
 function App() {
   const [searchRequest, setSearchRequest] = useState('')
   const [cards, setCards] = useState([])
-  const [favourites, setFavourites] = useState([])
   const [activeModal, setShowModal] = useState(false)
   const [isAuthentificatedUser, setIsAuthentificatedUser] = useState(false)
   const [itemsShopingCart, setItemsShopingCart] = useState(
@@ -34,7 +34,8 @@ function App() {
   const debounceValueInApp = useDebounce(searchRequest, 400)
   const navigate = useNavigate((s) => s)
   const isMounted = useRef(false)
-  const actualUser = useSelector((slice) => slice.user.data)
+  const actualUser = useSelector((state) => state.user.data)
+  const { data: prod, favourites } = useSelector((state) => state.products)
   const dispatch = useDispatch()
 
   const filtredUserCards = (products, id) =>
@@ -43,7 +44,7 @@ function App() {
   const handleSearchQuery = (search) => {
     api
       .searchProducts(search)
-      .then((data) => setCards(filtredUserCards(data, actualUser._id))) //(data) => setCards([...data])||filtredUserCards(data, actualUser._id)
+      .then((data) => setCards(filtredUserCards(data, actualUser._id)))
   }
 
   //накопитель для уменьшения количиства запросов на сервер
@@ -51,49 +52,20 @@ function App() {
     handleSearchQuery(debounceValueInApp)
   }, [debounceValueInApp])
 
-  //запрос с сервера информации о продуктах, фильтрация продуктов пользователя, лайки пользователя
-  useEffect(() => {
-    if (!isAuthentificatedUser) {
-      return
-    }
-    Promise.all([api.getProductList()]).then(([productData]) => {
-      const filteredData = filtredUserCards(
-        productData.products,
-        actualUser._id
-      )
-      setCards(filteredData) //productData.products
-      const favouritesCard = filteredData.filter((e) => findLike(e, actualUser))
-      setFavourites(favouritesCard)
-    })
-  }, [isAuthentificatedUser, actualUser])
-
   //диспач информации о пользователе
   useEffect(() => {
     if (!isAuthentificatedUser) {
       return
     }
 
-    dispatch(userFetch())
+    dispatch(userFetch()).then(() => dispatch(productFetch()))
   }, [dispatch, isAuthentificatedUser])
 
-  // добовление или удаление лайка
-  const handleProdAddDelLike = (product) => {
-    const isLiked = findLike(product, actualUser)
-    api.changeLikeProductStatus(product._id, !isLiked).then((newCard) => {
-      const newCards = cards.map((oldCards) => {
-        return oldCards._id === newCard._id ? newCard : oldCards
-      })
-      setCards(newCards)
-      setFavourites(
-        !isLiked
-          ? (stateFavour) => [...stateFavour, newCard]
-          : (stateFavour) => stateFavour.filter((f) => f._id !== newCard._id)
-      )
-    })
-    return isLiked
-  }
+  useEffect(() => {
+    setCards(filtredUserCards(prod, actualUser._id))
+  }, [prod, actualUser])
 
-  //создание нового обекта с каутером и добовление егр в корзину
+  //создание нового обекта с каутером и добовление его в корзину
   const handleAddItemsShopingCart = (product) => {
     const calcDiscountPrice = Math.round(
       product.price - (product.price * product.discount) / 100
@@ -102,9 +74,11 @@ function App() {
       id: product._id,
       name: product.name,
       price: calcDiscountPrice,
+      pictures: product.pictures,
       count: 1,
     }
     setItemsShopingCart([...itemsShopingCart, items])
+    console.log({ product })
   }
 
   //удаление товара из корзины
@@ -181,10 +155,8 @@ function App() {
     itemsShopingCart,
     setCards,
     navigate,
-    setFavourites,
     setSearchRequest,
     setSortCards,
-    handleProdAddDelLike,
     setShowModal,
     setIsAuthentificatedUser,
     setItemsShopingCart,
