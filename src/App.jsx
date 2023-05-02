@@ -77,13 +77,15 @@ function App() {
       pictures: product.pictures,
       count: 1,
     }
+
     setItemsShopingCart([...itemsShopingCart, items])
-    console.log({ product })
   }
 
   //удаление товара из корзины
   const handleRemoveItem = (id) => {
-    setItemsShopingCart(itemsShopingCart.filter((item) => item.id !== id))
+    setItemsShopingCart(
+      itemsShopingCart.filter((item) => item.id !== id && item.id !== prod.id)
+    )
   }
 
   // +1 к каутеру

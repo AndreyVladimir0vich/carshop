@@ -10,6 +10,7 @@ export const ItemsTable = ({
   removeItem,
   increaceCount,
   decreaceCount,
+  prodIdInCards,
 }) => (
   <>
     <table className="price-table">
@@ -24,32 +25,34 @@ export const ItemsTable = ({
         </tr>
       </thead>
       <tbody>
-        {items.map((item) => (
-          <tr key={item.id}>
-            <td>
-              <Link to={`/product/${item.id}`}>
-                <img
-                  className="prod__ava"
-                  src={item.pictures}
-                  alt="Изображение товара"
-                />
-              </Link>
-            </td>
-            <td>{item.name}</td>
-            <td>{item.price}</td>
-            <td>
-              <button onClick={() => decreaceCount(item.id, item.count)}>
-                -
-              </button>
-              <span className="count">{item.count}</span>
-              <button onClick={() => increaceCount(item.id)}>+</button>
-            </td>
-            <td>{item.price * item.count}</td>
-            <td>
-              <button onClick={() => removeItem(item.id)}>Х</button>
-            </td>
-          </tr>
-        ))}
+        {items
+          .filter((item) => prodIdInCards.includes(item.id))
+          .map((item) => (
+            <tr key={item.id}>
+              <td>
+                <Link to={`/product/${item.id}`}>
+                  <img
+                    className="prod__ava"
+                    src={item.pictures}
+                    alt="Изображение товара"
+                  />
+                </Link>
+              </td>
+              <td>{item.name}</td>
+              <td>{item.price}</td>
+              <td>
+                <button onClick={() => decreaceCount(item.id, item.count)}>
+                  -
+                </button>
+                <span className="count">{item.count}</span>
+                <button onClick={() => increaceCount(item.id)}>+</button>
+              </td>
+              <td>{item.price * item.count}</td>
+              <td>
+                <button onClick={() => removeItem(item.id)}>Х</button>
+              </td>
+            </tr>
+          ))}
       </tbody>
     </table>
     <div className="result-panel">

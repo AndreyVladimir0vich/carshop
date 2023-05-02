@@ -19,12 +19,17 @@ export const Header = () => {
     setShowModal,
     isAuthentificatedUser,
     itemsShopingCart,
+    cards,
   } = useContext(UserContext)
+  const prodIdInCards = cards.map((i) => i._id)
   const { favourites } = useSelector((state) => state.products)
   const actualUser = useSelector((slice) => slice.user.data)
   const navigate = useNavigate()
   const [isCreateModalActive, setCreateModal] = useState(false)
-  const countArr = itemsShopingCart.map((item) => item.count)
+
+  const countArr = itemsShopingCart
+    .filter((item) => prodIdInCards.includes(item.id))
+    .map((item) => item.count)
   let sumProd = 0
   countArr.map((item) => (sumProd += item))
 

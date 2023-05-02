@@ -10,13 +10,18 @@ export const ShoppingCard = () => {
     setItemsShopingCart,
     handleIncreaseCount,
     handleDecreaseCount,
+    cards,
   } = useContext(UserContext)
 
-  const result = itemsShopingCart.reduce(
-    (previousValue, currentItem) =>
-      previousValue + currentItem.price * currentItem.count,
-    0
-  )
+  const prodIdInCards = cards.map((i) => i._id)
+
+  const result = itemsShopingCart
+    .filter((item) => prodIdInCards.includes(item.id))
+    .reduce(
+      (previousValue, currentItem) =>
+        previousValue + currentItem.price * currentItem.count,
+      0
+    )
 
   const handleRemoveItem = (id) => {
     setItemsShopingCart(itemsShopingCart.filter((item) => item.id !== id))
@@ -27,6 +32,7 @@ export const ShoppingCard = () => {
       <h1>Корзина</h1>
       {itemsShopingCart.length ? (
         <ItemsTable
+          prodIdInCards={prodIdInCards}
           result={result}
           items={itemsShopingCart}
           removeItem={handleRemoveItem}
